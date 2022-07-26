@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Set API &mdash; LiberTEM 0.10.0.dev0 documentation</title>
+  <title>Data Set API &mdash; LiberTEM 0.10.0rc1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
@@ -804,6 +804,11 @@ system that has the shape <cite>(np.count_nonzero(roi),)</cite>.</p></li>
 <span class="sig-name descname"><span class="pre">set_corrections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">corrections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="corrections.html#libertem.io.corrections.CorrectionSet" title="libertem.io.corrections.corrset.CorrectionSet"><span class="pre">CorrectionSet</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/libertem/io/dataset/base/partition.html#BasePartition.set_corrections"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.io.dataset.base.BasePartition.set_corrections" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="libertem.io.dataset.base.BasePartition.set_worker_context">
+<span class="sig-name descname"><span class="pre">set_worker_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">worker_context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dev/executors.html#libertem.common.executor.WorkerContext" title="libertem.common.executor.WorkerContext"><span class="pre">WorkerContext</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/libertem/io/dataset/base/partition.html#BasePartition.set_worker_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.io.dataset.base.BasePartition.set_worker_context" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -990,6 +995,11 @@ implementations with a custom backend may return an empty list here.</p>
 <span class="sig-name descname"><span class="pre">get_sync_offset_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/libertem/io/dataset/base/dataset.html#DataSet.get_sync_offset_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.io.dataset.base.DataSet.get_sync_offset_info" title="Permalink to this definition"></a></dt>
 <dd><p>Check sync_offset specified and returns number of frames skipped and inserted</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libertem.io.dataset.base.DataSet.get_task_comm_handler">
+<span class="sig-name descname"><span class="pre">get_task_comm_handler</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../dev/executors.html#libertem.common.executor.TaskCommHandler" title="libertem.common.executor.TaskCommHandler"><span class="pre">TaskCommHandler</span></a></span></span><a class="reference internal" href="../_modules/libertem/io/dataset/base/dataset.html#DataSet.get_task_comm_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.io.dataset.base.DataSet.get_task_comm_handler" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="libertem.io.dataset.base.DataSet.initialize">
@@ -1512,6 +1522,11 @@ indices for each partition.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="libertem.io.dataset.base.Partition.set_io_backend">
 <span class="sig-name descname"><span class="pre">set_io_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/libertem/io/dataset/base/partition.html#Partition.set_io_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.io.dataset.base.Partition.set_io_backend" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libertem.io.dataset.base.Partition.set_worker_context">
+<span class="sig-name descname"><span class="pre">set_worker_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">worker_context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dev/executors.html#libertem.common.executor.WorkerContext" title="libertem.common.executor.WorkerContext"><span class="pre">WorkerContext</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/libertem/io/dataset/base/partition.html#Partition.set_worker_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.io.dataset.base.Partition.set_worker_context" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">

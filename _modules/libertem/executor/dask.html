@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>libertem.executor.dask &mdash; LiberTEM 0.10.0.dev0 documentation</title>
+  <title>libertem.executor.dask &mdash; LiberTEM 0.10.0rc1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
@@ -115,7 +115,7 @@
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">BaseJobExecutor</span><span class="p">,</span> <span class="n">AsyncAdapter</span>
 <span class="kn">from</span> <span class="nn">libertem.common.executor</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">JobCancelledError</span><span class="p">,</span> <span class="n">TaskProtocol</span><span class="p">,</span> <span class="n">Environment</span><span class="p">,</span>
+    <span class="n">JobCancelledError</span><span class="p">,</span> <span class="n">TaskCommHandler</span><span class="p">,</span> <span class="n">TaskProtocol</span><span class="p">,</span> <span class="n">Environment</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">libertem.common.async_utils</span> <span class="kn">import</span> <span class="n">sync_to_async</span>
 <span class="kn">from</span> <span class="nn">libertem.common.scheduler</span> <span class="kn">import</span> <span class="n">Worker</span><span class="p">,</span> <span class="n">WorkerSet</span>
@@ -371,7 +371,7 @@
             <span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_available_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_available_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WorkerSet</span><span class="p">:</span>
         <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">scheduler_info</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">WorkerSet</span><span class="p">([</span>
             <span class="n">Worker</span><span class="p">(</span>
@@ -453,6 +453,7 @@
         <span class="n">tasks</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TaskProtocol</span><span class="p">],</span>
         <span class="n">params_handle</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">cancel_id</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">task_comm_handler</span><span class="p">:</span> <span class="n">TaskCommHandler</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">tasks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
         <span class="n">tasks_w_index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">tasks</span><span class="p">))</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; LiberTEM 0.10.0.dev0 documentation</title>
+  <title>Index &mdash; LiberTEM 0.10.0rc1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
@@ -255,19 +255,25 @@
       <ul>
         <li><a href="dev/executors.html#libertem.common.executor.JobExecutor.close">(libertem.common.executor.JobExecutor method)</a>
 </li>
+        <li><a href="dev/executors.html#libertem.common.executor.SimpleMPWorkerQueue.close">(libertem.common.executor.SimpleMPWorkerQueue method)</a>
+</li>
+        <li><a href="dev/executors.html#libertem.common.executor.SimpleWorkerQueue.close">(libertem.common.executor.SimpleWorkerQueue method)</a>
+</li>
         <li><a href="dev/executors.html#libertem.executor.concurrent.ConcurrentJobExecutor.close">(libertem.executor.concurrent.ConcurrentJobExecutor method)</a>
 </li>
         <li><a href="dev/executors.html#libertem.executor.dask.DaskJobExecutor.close">(libertem.executor.dask.DaskJobExecutor method)</a>
+</li>
+        <li><a href="dev/executors.html#libertem.executor.pipelined.PipelinedExecutor.close">(libertem.executor.pipelined.PipelinedExecutor method)</a>
 </li>
         <li><a href="reference/caching.html#libertem.io.dataset.cached.CacheStats.close">(libertem.io.dataset.cached.CacheStats method)</a>
 </li>
       </ul></li>
       <li><a href="dev/executors.html#libertem.executor.dask.cluster_spec">cluster_spec() (in module libertem.executor.dask)</a>
 </li>
-      <li><a href="reference/cluster-ds.html#libertem.io.dataset.cluster.ClusterDataSet">ClusterDataSet (class in libertem.io.dataset.cluster)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/cluster-ds.html#libertem.io.dataset.cluster.ClusterDataSet">ClusterDataSet (class in libertem.io.dataset.cluster)</a>
+</li>
       <li><a href="reference/cluster-ds.html#libertem.io.dataset.cluster.ClusterDSPartition">ClusterDSPartition (class in libertem.io.dataset.cluster)</a>
 </li>
       <li><a href="reference/caching.html#libertem.io.dataset.cached.Cache.collect_orphans">collect_orphans() (libertem.io.dataset.cached.Cache method)</a>
@@ -376,10 +382,10 @@
 </li>
       <li><a href="reference/api.html#libertem.analysis.base.AnalysisResult.desc">desc (libertem.analysis.base.AnalysisResult attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/internals.html#libertem.utils.devices.detect">detect() (in module libertem.utils.devices)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/dataset.html#libertem.io.dataset.base.DataSet.detect_params">detect_params() (libertem.io.dataset.base.DataSet class method)</a>
 
       <ul>
@@ -418,6 +424,12 @@
 </li>
       <li><a href="reference/dataset.html#libertem.io.dataset.base.Decoder.do_clear">do_clear() (libertem.io.dataset.base.Decoder method)</a>
 </li>
+      <li><a href="dev/executors.html#libertem.common.executor.NoopCommHandler.done">done() (libertem.common.executor.NoopCommHandler method)</a>
+
+      <ul>
+        <li><a href="dev/executors.html#libertem.common.executor.TaskCommHandler.done">(libertem.common.executor.TaskCommHandler method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/udf.html#libertem.common.buffers.BufferWrapper.dtype">dtype (libertem.common.buffers.BufferWrapper property)</a>
 
       <ul>
@@ -578,6 +590,8 @@
         <li><a href="dev/executors.html#libertem.executor.delayed.DelayedJobExecutor.get_available_workers">(libertem.executor.delayed.DelayedJobExecutor method)</a>
 </li>
         <li><a href="dev/executors.html#libertem.executor.inline.InlineJobExecutor.get_available_workers">(libertem.executor.inline.InlineJobExecutor method)</a>
+</li>
+        <li><a href="dev/executors.html#libertem.executor.pipelined.PipelinedExecutor.get_available_workers">(libertem.executor.pipelined.PipelinedExecutor method)</a>
 </li>
       </ul></li>
       <li><a href="reference/udf.html#libertem.udf.base.UDF.get_backends">get_backends() (libertem.udf.base.UDF method)</a>
@@ -752,6 +766,8 @@
 </li>
       <li><a href="reference/dataset.html#libertem.io.dataset.base.DataSet.get_sync_offset_info">get_sync_offset_info() (libertem.io.dataset.base.DataSet method)</a>
 </li>
+      <li><a href="reference/dataset.html#libertem.io.dataset.base.DataSet.get_task_comm_handler">get_task_comm_handler() (libertem.io.dataset.base.DataSet method)</a>
+</li>
       <li><a href="reference/udf.html#libertem.udf.base.UDF.get_task_data">get_task_data() (libertem.udf.base.UDF method)</a>
 
       <ul>
@@ -842,16 +858,22 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/dataset.html#libertem.io.dataset.hdf5.H5DataSet">H5DataSet (class in libertem.io.dataset.hdf5)</a>
 </li>
+      <li><a href="dev/executors.html#libertem.common.executor.NoopCommHandler.handle_task">handle_task() (libertem.common.executor.NoopCommHandler method)</a>
+
+      <ul>
+        <li><a href="dev/executors.html#libertem.common.executor.TaskCommHandler.handle_task">(libertem.common.executor.TaskCommHandler method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/internals.html#libertem.utils.devices.has_cupy">has_cupy() (in module libertem.utils.devices)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/udf.html#libertem.common.buffers.BufferWrapper.has_data">has_data() (libertem.common.buffers.BufferWrapper method)</a>
 
       <ul>
         <li><a href="reference/udf.html#libertem.common.buffers.PlaceholderBufferWrapper.has_data">(libertem.common.buffers.PlaceholderBufferWrapper method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/app/holography.html#libertem.utils.generate.hologram_frame">hologram_frame() (in module libertem.utils.generate)</a>
 </li>
       <li><a href="reference/app/holography.html#libertem.udf.holography.HoloReconstructUDF">HoloReconstructUDF (class in libertem.udf.holography)</a>
@@ -885,6 +907,8 @@
       <li><a href="reference/caching.html#libertem.io.dataset.cached.CacheStats.initialize_schema">initialize_schema() (libertem.io.dataset.cached.CacheStats method)</a>
 </li>
       <li><a href="dev/executors.html#libertem.executor.inline.InlineJobExecutor">InlineJobExecutor (class in libertem.executor.inline)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.executor.inline.InlineWorkerContext">InlineWorkerContext (class in libertem.executor.inline)</a>
 </li>
       <li><a href="reference/udf.html#libertem.udf.base.UDFMeta.input_dtype">input_dtype (libertem.udf.base.UDFMeta property)</a>
 </li>
@@ -1115,8 +1139,6 @@
         <li><a href="dev/executors.html#module-libertem.executor.concurrent">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     libertem.executor.dask
 
@@ -1124,6 +1146,8 @@
         <li><a href="dev/executors.html#module-libertem.executor.dask">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     libertem.executor.delayed
 
@@ -1143,6 +1167,13 @@
 
       <ul>
         <li><a href="dev/executors.html#module-libertem.executor.integration">module</a>
+</li>
+      </ul></li>
+      <li>
+    libertem.executor.pipelined
+
+      <ul>
+        <li><a href="dev/executors.html#module-libertem.executor.pipelined">module</a>
 </li>
       </ul></li>
       <li>
@@ -1265,6 +1296,8 @@
       <ul>
         <li><a href="dev/executors.html#libertem.executor.dask.DaskJobExecutor.make_local">(libertem.executor.dask.DaskJobExecutor class method)</a>
 </li>
+        <li><a href="dev/executors.html#libertem.executor.pipelined.PipelinedExecutor.make_local">(libertem.executor.pipelined.PipelinedExecutor class method)</a>
+</li>
       </ul></li>
       <li><a href="reference/app/strain.html#libertem.analysis.fullmatch.FullMatcher.make_polar_vectors">make_polar_vectors() (libertem.analysis.fullmatch.FullMatcher method)</a>
 </li>
@@ -1288,6 +1321,8 @@
         <li><a href="dev/executors.html#libertem.executor.delayed.DelayedJobExecutor.map">(libertem.executor.delayed.DelayedJobExecutor method)</a>
 </li>
         <li><a href="dev/executors.html#libertem.executor.inline.InlineJobExecutor.map">(libertem.executor.inline.InlineJobExecutor method)</a>
+</li>
+        <li><a href="dev/executors.html#libertem.executor.pipelined.PipelinedExecutor.map">(libertem.executor.pipelined.PipelinedExecutor method)</a>
 </li>
       </ul></li>
       <li><a href="reference/internals.html#libertem.common.container.MaskContainer">MaskContainer (class in libertem.common.container)</a>
@@ -1370,6 +1405,8 @@
 </li>
         <li><a href="dev/executors.html#module-libertem.executor.integration">libertem.executor.integration</a>
 </li>
+        <li><a href="dev/executors.html#module-libertem.executor.pipelined">libertem.executor.pipelined</a>
+</li>
         <li><a href="reference/dataset.html#module-libertem.io.dataset.base">libertem.io.dataset.base</a>
 </li>
         <li><a href="reference/caching.html#module-libertem.io.dataset.cached">libertem.io.dataset.cached</a>
@@ -1429,6 +1466,8 @@
 </li>
       <li><a href="reference/udf.html#libertem.common.buffers.AuxBufferWrapper.new_for_partition">new_for_partition() (libertem.common.buffers.AuxBufferWrapper method)</a>
 </li>
+      <li><a href="dev/executors.html#libertem.common.executor.NoopCommHandler">NoopCommHandler (class in libertem.common.executor)</a>
+</li>
       <li><a href="reference/udf.html#libertem.udf.base.NoOpUDF">NoOpUDF (class in libertem.udf.base)</a>
 </li>
       <li><a href="reference/app/strain.html#libertem.analysis.fullmatch.NotFoundException">NotFoundException</a>
@@ -1475,6 +1514,12 @@
 </li>
       <li><a href="reference/udf.html#libertem.udf.raw.PickUDF">PickUDF (class in libertem.udf.raw)</a>
 </li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.pipelined_worker">pipelined_worker() (in module libertem.executor.pipelined)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.PipelinedExecutor">PipelinedExecutor (class in libertem.executor.pipelined)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.PipelinedWorkerContext">PipelinedWorkerContext (class in libertem.executor.pipelined)</a>
+</li>
       <li><a href="reference/udf.html#libertem.common.buffers.PlaceholderBufferWrapper">PlaceholderBufferWrapper (class in libertem.common.buffers)</a>
 </li>
       <li><a href="reference/dataset.html#libertem.io.dataset.base.DirectBackend.platform_supported">platform_supported() (libertem.io.dataset.base.DirectBackend class method)</a>
@@ -1491,11 +1536,15 @@
 </li>
       <li><a href="reference/masks.html#libertem.masks.polar_map">polar_map() (in module libertem.masks)</a>
 </li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.PoolWorkerInfo">PoolWorkerInfo (class in libertem.executor.pipelined)</a>
+</li>
       <li><a href="reference/udf.html#libertem.udf.base.UDFPostprocessMixin.postprocess">postprocess() (libertem.udf.base.UDFPostprocessMixin method)</a>
 </li>
       <li><a href="reference/udf.html#libertem.common.buffers.PreallocBufferWrapper">PreallocBufferWrapper (class in libertem.common.buffers)</a>
 </li>
       <li><a href="reference/udf.html#libertem.udf.base.UDFPreprocessMixin.preprocess">preprocess() (libertem.udf.base.UDFPreprocessMixin method)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.PoolWorkerInfo.process">process (libertem.executor.pipelined.PoolWorkerInfo attribute)</a>
 </li>
       <li><a href="reference/udf.html#libertem.udf.base.UDFFrameMixin.process_frame">process_frame() (libertem.udf.base.UDFFrameMixin method)</a>
 
@@ -1513,6 +1562,12 @@
         <li><a href="reference/udf.html#libertem.udf.stddev.StdDevUDF.process_tile">(libertem.udf.stddev.StdDevUDF method)</a>
 </li>
       </ul></li>
+      <li><a href="dev/executors.html#libertem.common.executor.SimpleMPWorkerQueue.put_nocopy">put_nocopy() (libertem.common.executor.SimpleMPWorkerQueue method)</a>
+
+      <ul>
+        <li><a href="dev/executors.html#libertem.common.executor.SimpleWorkerQueue.put_nocopy">(libertem.common.executor.SimpleWorkerQueue method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -1520,6 +1575,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/caching.html#libertem.io.dataset.cached.CacheStats.query">query() (libertem.io.dataset.cached.CacheStats method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.PoolWorkerInfo.queues">queues (libertem.executor.pipelined.PoolWorkerInfo attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1577,11 +1636,15 @@
 </li>
       <li><a href="reference/udf.html#libertem.common.buffers.BufferWrapper.replace_array">replace_array() (libertem.common.buffers.BufferWrapper method)</a>
 </li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.WorkerQueues.request">request (libertem.executor.pipelined.WorkerQueues attribute)</a>
+</li>
       <li><a href="reference/udf.html#libertem.udf.base.UDF.requires_custom_merge">requires_custom_merge (libertem.udf.base.UDF property)</a>
 </li>
       <li><a href="reference/dataset.html#libertem.io.dataset.base.DataTile.reshape">reshape() (libertem.io.dataset.base.DataTile method)</a>
 </li>
       <li><a href="reference/udf.html#libertem.common.buffers.reshaped_view">reshaped_view() (in module libertem.common.buffers)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.WorkerQueues.response">response (libertem.executor.pipelined.WorkerQueues attribute)</a>
 </li>
       <li><a href="reference/udf.html#libertem.common.buffers.BufferWrapper.result_buffer_type">result_buffer_type() (libertem.common.buffers.BufferWrapper method)</a>
 </li>
@@ -1593,10 +1656,10 @@
 </li>
       <li><a href="reference/api.html#libertem.api.Context.run">run() (libertem.api.Context method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/app/phasechange.html#libertem.udf.crystallinity.run_analysis_crystall">run_analysis_crystall() (in module libertem.udf.crystallinity)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dev/executors.html#libertem.common.executor.JobExecutor.run_each_host">run_each_host() (libertem.common.executor.JobExecutor method)</a>
 
       <ul>
@@ -1607,6 +1670,8 @@
         <li><a href="dev/executors.html#libertem.executor.delayed.DelayedJobExecutor.run_each_host">(libertem.executor.delayed.DelayedJobExecutor method)</a>
 </li>
         <li><a href="dev/executors.html#libertem.executor.inline.InlineJobExecutor.run_each_host">(libertem.executor.inline.InlineJobExecutor method)</a>
+</li>
+        <li><a href="dev/executors.html#libertem.executor.pipelined.PipelinedExecutor.run_each_host">(libertem.executor.pipelined.PipelinedExecutor method)</a>
 </li>
       </ul></li>
       <li><a href="dev/executors.html#libertem.common.executor.JobExecutor.run_each_partition">run_each_partition() (libertem.common.executor.JobExecutor method)</a>
@@ -1628,6 +1693,8 @@
 </li>
         <li><a href="dev/executors.html#libertem.executor.inline.InlineJobExecutor.run_each_worker">(libertem.executor.inline.InlineJobExecutor method)</a>
 </li>
+        <li><a href="dev/executors.html#libertem.executor.pipelined.PipelinedExecutor.run_each_worker">(libertem.executor.pipelined.PipelinedExecutor method)</a>
+</li>
       </ul></li>
       <li><a href="reference/app/amorphous.html#libertem.udf.FEM.run_fem">run_fem() (in module libertem.udf.FEM)</a>
 </li>
@@ -1644,6 +1711,8 @@
 </li>
         <li><a href="dev/executors.html#libertem.executor.inline.InlineJobExecutor.run_function">(libertem.executor.inline.InlineJobExecutor method)</a>
 </li>
+        <li><a href="dev/executors.html#libertem.executor.pipelined.PipelinedExecutor.run_function">(libertem.executor.pipelined.PipelinedExecutor method)</a>
+</li>
       </ul></li>
       <li><a href="reference/udf.html#libertem.udf.stddev.run_stddev">run_stddev() (in module libertem.udf.stddev)</a>
 </li>
@@ -1659,6 +1728,8 @@
         <li><a href="dev/executors.html#libertem.executor.delayed.DelayedJobExecutor.run_tasks">(libertem.executor.delayed.DelayedJobExecutor method)</a>
 </li>
         <li><a href="dev/executors.html#libertem.executor.inline.InlineJobExecutor.run_tasks">(libertem.executor.inline.InlineJobExecutor method)</a>
+</li>
+        <li><a href="dev/executors.html#libertem.executor.pipelined.PipelinedExecutor.run_tasks">(libertem.executor.pipelined.PipelinedExecutor method)</a>
 </li>
       </ul></li>
       <li><a href="reference/api.html#libertem.api.Context.run_udf">run_udf() (libertem.api.Context method)</a>
@@ -1683,6 +1754,8 @@
         <li><a href="dev/executors.html#libertem.executor.delayed.DelayedJobExecutor.scatter">(libertem.executor.delayed.DelayedJobExecutor method)</a>
 </li>
         <li><a href="dev/executors.html#libertem.executor.inline.InlineJobExecutor.scatter">(libertem.executor.inline.InlineJobExecutor method)</a>
+</li>
+        <li><a href="dev/executors.html#libertem.executor.pipelined.PipelinedExecutor.scatter">(libertem.executor.pipelined.PipelinedExecutor method)</a>
 </li>
       </ul></li>
       <li><a href="reference/dataset.html#libertem.io.dataset.base.PartitionStructure.SCHEMA">SCHEMA (libertem.io.dataset.base.PartitionStructure attribute)</a>
@@ -1715,10 +1788,18 @@
 </li>
       <li><a href="reference/udf.html#libertem.common.buffers.BufferWrapper.set_shape_partition">set_shape_partition() (libertem.common.buffers.BufferWrapper method)</a>
 </li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.set_thread_name">set_thread_name() (in module libertem.executor.pipelined)</a>
+</li>
       <li><a href="reference/internals.html#libertem.common.backend.set_use_cpu">set_use_cpu() (in module libertem.common.backend)</a>
 </li>
       <li><a href="reference/internals.html#libertem.common.backend.set_use_cuda">set_use_cuda() (in module libertem.common.backend)</a>
 </li>
+      <li><a href="reference/dataset.html#libertem.io.dataset.base.BasePartition.set_worker_context">set_worker_context() (libertem.io.dataset.base.BasePartition method)</a>
+
+      <ul>
+        <li><a href="reference/dataset.html#libertem.io.dataset.base.Partition.set_worker_context">(libertem.io.dataset.base.Partition method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/internals.html#libertem.common.shape.Shape">Shape (class in libertem.common.shape)</a>
 </li>
       <li><a href="reference/udf.html#libertem.common.buffers.BufferWrapper.shape">shape (libertem.common.buffers.BufferWrapper property)</a>
@@ -1751,6 +1832,10 @@
 </li>
       <li><a href="reference/udf.html#libertem.udf.base.UDFMeta.sig_slice">sig_slice (libertem.udf.base.UDFMeta property)</a>
 </li>
+      <li><a href="dev/executors.html#libertem.common.executor.SimpleMPWorkerQueue">SimpleMPWorkerQueue (class in libertem.common.executor)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.common.executor.SimpleWorkerQueue">SimpleWorkerQueue (class in libertem.common.executor)</a>
+</li>
       <li><a href="reference/api.html#libertem.analysis.masks.SingleMaskResultSet">SingleMaskResultSet (class in libertem.analysis.masks)</a>
 </li>
       <li><a href="reference/internals.html#libertem.common.shape.Shape.size">size (libertem.common.shape.Shape property)</a>
@@ -1769,6 +1854,14 @@
 </li>
       <li><a href="reference/masks.html#libertem.masks.sparse_template_multi_stack">sparse_template_multi_stack() (in module libertem.masks)</a>
 </li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.PoolWorkerInfo.spec">spec (libertem.executor.pipelined.PoolWorkerInfo attribute)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.common.executor.NoopCommHandler.start">start() (libertem.common.executor.NoopCommHandler method)</a>
+
+      <ul>
+        <li><a href="dev/executors.html#libertem.common.executor.TaskCommHandler.start">(libertem.common.executor.TaskCommHandler method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/dataset.html#libertem.io.dataset.base.File.start_idx">start_idx (libertem.io.dataset.base.File property)</a>
 </li>
       <li><a href="reference/udf.html#libertem.udf.stddev.StdDevUDF">StdDevUDF (class in libertem.udf.stddev)</a>
@@ -1789,7 +1882,11 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="dev/executors.html#libertem.common.executor.TaskCommHandler">TaskCommHandler (class in libertem.common.executor)</a>
+</li>
       <li><a href="dev/executors.html#libertem.common.executor.TaskProtocol">TaskProtocol (class in libertem.common.executor)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.common.executor.Environment.threaded_executor">threaded_executor (libertem.common.executor.Environment property)</a>
 </li>
       <li><a href="dev/executors.html#libertem.common.executor.Environment.threads_per_worker">threads_per_worker (libertem.common.executor.Environment property)</a>
 
@@ -1801,10 +1898,10 @@
 </li>
       <li><a href="reference/udf.html#libertem.udf.base.UDFMeta.tiling_scheme_idx">tiling_scheme_idx (libertem.udf.base.UDFMeta property)</a>
 </li>
-      <li><a href="reference/dataset.html#libertem.io.dataset.base.TilingScheme">TilingScheme (class in libertem.io.dataset.base)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/dataset.html#libertem.io.dataset.base.TilingScheme">TilingScheme (class in libertem.io.dataset.base)</a>
+</li>
       <li><a href="reference/api.html#libertem.analysis.base.AnalysisResult.title">title (libertem.analysis.base.AnalysisResult attribute)</a>
 </li>
       <li><a href="reference/sparse.html#libertem.common.sparse.to_dense">to_dense() (in module libertem.common.sparse)</a>
@@ -1885,8 +1982,26 @@
 </li>
       <li><a href="reference/udf.html#libertem.common.buffers.BufferWrapper.where">where (libertem.common.buffers.BufferWrapper property)</a>
 </li>
+      <li><a href="dev/executors.html#libertem.common.executor.Environment.worker_context">worker_context (libertem.common.executor.Environment property)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.worker_loop">worker_loop() (in module libertem.executor.pipelined)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.worker_run_function">worker_run_function() (in module libertem.executor.pipelined)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.worker_run_task">worker_run_task() (in module libertem.executor.pipelined)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="dev/executors.html#libertem.common.executor.WorkerContext">WorkerContext (class in libertem.common.executor)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.WorkerPool">WorkerPool (class in libertem.executor.pipelined)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.common.executor.WorkerQueueEmpty">WorkerQueueEmpty</a>
+</li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.WorkerQueues">WorkerQueues (class in libertem.executor.pipelined)</a>
+</li>
+      <li><a href="dev/executors.html#libertem.executor.pipelined.WorkerSpec">WorkerSpec (class in libertem.executor.pipelined)</a>
+</li>
       <li><a href="reference/dataset.html#libertem.io.dataset.base.WritableDataSet">WritableDataSet (class in libertem.io.dataset.base)</a>
 </li>
       <li><a href="reference/dataset.html#libertem.io.dataset.base.WritablePartition">WritablePartition (class in libertem.io.dataset.base)</a>

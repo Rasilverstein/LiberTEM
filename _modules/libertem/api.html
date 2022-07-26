@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>libertem.api &mdash; LiberTEM 0.10.0.dev0 documentation</title>
+  <title>libertem.api &mdash; LiberTEM 0.10.0rc1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
@@ -110,6 +110,7 @@
 
 <span class="kn">from</span> <span class="nn">opentelemetry</span> <span class="kn">import</span> <span class="n">trace</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">libertem.executor.pipelined</span> <span class="kn">import</span> <span class="n">PipelinedExecutor</span>
 
 <span class="kn">from</span> <span class="nn">libertem.io.corrections</span> <span class="kn">import</span> <span class="n">CorrectionSet</span>
 <span class="kn">from</span> <span class="nn">libertem.executor.concurrent</span> <span class="kn">import</span> <span class="n">ConcurrentJobExecutor</span>
@@ -154,6 +155,7 @@
     <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;dask-integration&#39;</span><span class="p">],</span>
     <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;dask-make-default&#39;</span><span class="p">],</span>
     <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;delayed&#39;</span><span class="p">],</span>
+    <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;pipelined&#39;</span><span class="p">],</span>
 <span class="p">]</span>
 
 
@@ -246,6 +248,10 @@
 <span class="sd">                computation using `dask.delayed &lt;https://docs.dask.org/en/stable/delayed.html&gt;`_.</span>
 <span class="sd">                This functionality is highly experimental at this time, see</span>
 <span class="sd">                :ref:`delayed_udfs` for more information.</span>
+<span class="sd">            &quot;pipelined&quot;:</span>
+<span class="sd">                Create a :class:`~libertem.executor.pipelined.PipelinedExecutor`,</span>
+<span class="sd">                which is suitable for multi-process streaming live processing</span>
+<span class="sd">                using `LiberTEM-live &lt;https://libertem.github.io/LiberTEM-live/&gt;`_.</span>
 <span class="sd">        *args, **kwargs</span>
 <span class="sd">            Passed to :class:`Context`.</span>
 
@@ -253,6 +259,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Instance of :class:`Context` using a new instance of the specified executor.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">executor</span><span class="p">:</span> <span class="n">JobExecutor</span>
         <span class="k">if</span> <span class="n">executor_spec</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;synchronous&#39;</span><span class="p">,</span> <span class="s1">&#39;inline&#39;</span><span class="p">):</span>
             <span class="n">executor</span> <span class="o">=</span> <span class="n">InlineJobExecutor</span><span class="p">()</span>
         <span class="k">elif</span> <span class="n">executor_spec</span> <span class="o">==</span> <span class="s1">&#39;threads&#39;</span><span class="p">:</span>
@@ -263,10 +270,13 @@
             <span class="n">executor</span> <span class="o">=</span> <span class="n">DaskJobExecutor</span><span class="o">.</span><span class="n">make_local</span><span class="p">(</span><span class="n">client_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;set_as_default&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
         <span class="k">elif</span> <span class="n">executor_spec</span> <span class="o">==</span> <span class="s1">&#39;delayed&#39;</span><span class="p">:</span>
             <span class="n">executor</span> <span class="o">=</span> <span class="n">DelayedJobExecutor</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">executor_spec</span> <span class="o">==</span> <span class="s1">&#39;pipelined&#39;</span><span class="p">:</span>
+            <span class="n">executor</span> <span class="o">=</span> <span class="n">PipelinedExecutor</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Argument `executor_spec` is </span><span class="si">{</span><span class="n">executor_spec</span><span class="si">}</span><span class="s1">. Allowed are &#39;</span>
-                <span class="sa">f</span><span class="s1">&#39;synchronous&quot;, &quot;inline&quot;, &quot;threads&quot;, &quot;dask-integration&quot; or &quot;dask-make-default&quot;.&#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;synchronous&quot;, &quot;inline&quot;, &quot;threads&quot;, &quot;dask-integration&quot;, &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;&quot;dask-make-default&quot; or &quot;pipelined&quot;.&#39;</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 

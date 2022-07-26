@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>libertem.common.executor &mdash; LiberTEM 0.10.0.dev0 documentation</title>
+  <title>libertem.common.executor &mdash; LiberTEM 0.10.0rc1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
@@ -101,11 +101,21 @@
            <div itemprop="articleBody">
              
   <h1>Source code for libertem.common.executor</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Type</span>
-<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Protocol</span>
+<span></span><span class="kn">import</span> <span class="nn">queue</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span>
+    <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
 
+<span class="kn">import</span> <span class="nn">cloudpickle</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Protocol</span>
+
+<span class="kn">from</span> <span class="nn">libertem.common.scheduler</span> <span class="kn">import</span> <span class="n">WorkerSet</span>
 <span class="kn">from</span> <span class="nn">libertem.common.threading</span> <span class="kn">import</span> <span class="n">set_num_threads</span><span class="p">,</span> <span class="n">mitigations</span>
+<span class="kn">from</span> <span class="nn">libertem.io.dataset.base</span> <span class="kn">import</span> <span class="n">Partition</span>
 
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -128,9 +138,15 @@
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Create the environment to run a task, in particular thread count.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threads_per_worker</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">threaded_executor</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">threads_per_worker</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">threaded_executor</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">worker_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;WorkerContext&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_threads_per_worker</span> <span class="o">=</span> <span class="n">threads_per_worker</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_threaded_executor</span> <span class="o">=</span> <span class="n">threaded_executor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_context</span> <span class="o">=</span> <span class="n">worker_context</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">threads_per_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
@@ -149,8 +165,23 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threads_per_worker</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">threaded_executor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">threaded_executor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Whether or not the executor uses threading for parallelism.</span>
+<span class="sd">        If this flag is set, mitigations for common threading issues are</span>
+<span class="sd">        automatically applied.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threaded_executor</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">worker_context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;WorkerContext&quot;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A :code:`WorkerContext` instance, if available, as supplied</span>
+<span class="sd">        by the `JobExecutor`. This is used to manage streaming communication</span>
+<span class="sd">        between the main process and the workers. If :code:`None` is</span>
+<span class="sd">        returned, streaming communication with workers is not available.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_context</span>
 
 <div class="viewcode-block" id="Environment.enter"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.Environment.enter">[docs]</a>    <span class="nd">@contextmanager</span>
     <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -176,10 +207,14 @@
         <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">get_tracing_span_context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SpanContext&quot;</span><span class="p">:</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">get_partition</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Partition</span><span class="p">:</span>
         <span class="o">...</span></div>
 
 
 <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="JobExecutor"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor">[docs]</a><span class="k">class</span> <span class="nc">JobExecutor</span><span class="p">:</span>
@@ -215,6 +250,7 @@
         <span class="n">tasks</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TaskProtocol</span><span class="p">],</span>
         <span class="n">params_handle</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">cancel_id</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">task_comm_handler</span><span class="p">:</span> <span class="s2">&quot;TaskCommHandler&quot;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run the tasks with the given parameters</span>
@@ -252,7 +288,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="JobExecutor.map"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+<div class="viewcode-block" id="JobExecutor.map"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">V</span><span class="p">],</span> <span class="n">T</span><span class="p">],</span> <span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">V</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run a callable `fn` for each element in `iterable`, on arbitrary worker nodes.</span>
 
@@ -315,13 +351,9 @@
 <span class="sd">        cleanup resources used by this executor, if any</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="JobExecutor.get_available_workers"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.get_available_workers">[docs]</a>    <span class="k">def</span> <span class="nf">get_available_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="JobExecutor.get_available_workers"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.get_available_workers">[docs]</a>    <span class="k">def</span> <span class="nf">get_available_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WorkerSet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a list of dicts with available workers</span>
-
-<span class="sd">        keys of the dictionary:</span>
-<span class="sd">            name : an identifying name of the worker</span>
-<span class="sd">            host : ip address or hostname where the worker is running</span>
+<span class="sd">        Returns a WorkerSet that contains the available workers</span>
 
 <span class="sd">        Each worker should correspond to a &quot;worker process&quot;, so if the executor</span>
 <span class="sd">        is using multiple processes or threads, each process/thread should be</span>
@@ -447,6 +479,200 @@
 
     <span class="k">def</span> <span class="nf">get_udf_runner</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;UDFRunner&#39;</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="WorkerQueueEmpty"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.WorkerQueueEmpty">[docs]</a><span class="k">class</span> <span class="nc">WorkerQueueEmpty</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A non-blocking get was called on an empty queue, or a blocking `get` with a</span>
+<span class="sd">    non-zero timeout timed out.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<span class="k">class</span> <span class="nc">WorkerQueue</span><span class="p">:</span>
+    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">block</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">memoryview</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">memoryview</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">put_nocopy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="nb">memoryview</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Put data into the queue, without an additional copy.</span>
+<span class="sd">        This will yield a writable `memoryview`, instead of requiring that</span>
+<span class="sd">        the data to be sent is already available as a `memoryview` and</span>
+<span class="sd">        copying into its final destination, as is the case in `put`.</span>
+
+<span class="sd">        This can be useful, for example, if you need to perform any kind</span>
+<span class="sd">        of operation that writes into a buffer. For example:</span>
+
+<span class="sd">        &gt;&gt;&gt; q = SomeWorkerQueueImpl()  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; with q.put_nocopy(1024) as send_buf:  # doctest: +SKIP</span>
+<span class="sd">        ...     # NOTE: in reality, need to handle n_bytes &lt; 1024</span>
+<span class="sd">        ...     n_bytes = some_socket.recvinto(send_buf)</span>
+
+<span class="sd">        If the data you receive is already in a shared memory segment,</span>
+<span class="sd">        you can send the handle as part of the `header` and use the normal `put`</span>
+<span class="sd">        method instead.</span>
+
+<span class="sd">        Note: for releasing memory, it might be necessary to implement another</span>
+<span class="sd">        queue that synchronizes the release process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drain</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        drain</span>
+<span class="sd">            If needed by the underlying queue, remove any items</span>
+<span class="sd">            from the queue before closing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="SimpleWorkerQueue"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.SimpleWorkerQueue">[docs]</a><span class="k">class</span> <span class="nc">SimpleWorkerQueue</span><span class="p">(</span><span class="n">WorkerQueue</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A :code:`WorkerQueue` that uses a threading :code:`Queue` under the hood.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">:</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">memoryview</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">header</span><span class="p">,</span> <span class="n">payload</span><span class="p">))</span>
+
+<div class="viewcode-block" id="SimpleWorkerQueue.put_nocopy"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.SimpleWorkerQueue.put_nocopy">[docs]</a>    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">put_nocopy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="nb">memoryview</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">header</span><span class="p">,</span> <span class="n">payload</span><span class="p">))</span></div>
+
+    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">res</span>
+        <span class="k">except</span> <span class="n">queue</span><span class="o">.</span><span class="n">Empty</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">WorkerQueueEmpty</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SimpleWorkerQueue.close"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.SimpleWorkerQueue.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drain</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="SimpleMPWorkerQueue"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.SimpleMPWorkerQueue">[docs]</a><span class="k">class</span> <span class="nc">SimpleMPWorkerQueue</span><span class="p">(</span><span class="n">WorkerQueue</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A :code:`WorkerQueue` that uses a :code:`mp.Queue` under the hood.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mp_ctx</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">get_context</span><span class="p">(</span><span class="s2">&quot;spawn&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">:</span> <span class="n">mp</span><span class="o">.</span><span class="n">Queue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mp_ctx</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">memoryview</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">header_serialized</span> <span class="o">=</span> <span class="n">cloudpickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">payload_serialized</span> <span class="o">=</span> <span class="n">cloudpickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">header_serialized</span><span class="p">,</span> <span class="n">payload_serialized</span><span class="p">))</span>
+
+<div class="viewcode-block" id="SimpleMPWorkerQueue.put_nocopy"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.SimpleMPWorkerQueue.put_nocopy">[docs]</a>    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">put_nocopy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="nb">memoryview</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">header</span><span class="p">,</span> <span class="n">payload</span><span class="p">))</span></div>
+
+    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="n">cloudpickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">cloudpickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">except</span> <span class="n">queue</span><span class="o">.</span><span class="n">Empty</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">WorkerQueueEmpty</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SimpleMPWorkerQueue.close"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.SimpleMPWorkerQueue.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drain</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">drain</span><span class="p">:</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">get_nowait</span><span class="p">()</span>
+                    <span class="k">except</span> <span class="n">queue</span><span class="o">.</span><span class="n">Empty</span><span class="p">:</span>
+                        <span class="k">break</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">join_thread</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="WorkerContext"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.WorkerContext">[docs]</a><span class="k">class</span> <span class="nc">WorkerContext</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A :code:`WorkerContext` is used to manage streaming communication between</span>
+<span class="sd">    the main process and the workers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">get_worker_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WorkerQueue</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="TaskCommHandler"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.TaskCommHandler">[docs]</a><span class="k">class</span> <span class="nc">TaskCommHandler</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the interface that is implemented by the acquisition object</span>
+<span class="sd">    to allow streaming communication with workers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TaskCommHandler.handle_task"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.TaskCommHandler.handle_task">[docs]</a>    <span class="k">def</span> <span class="nf">handle_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="n">TaskProtocol</span><span class="p">,</span> <span class="n">queue</span><span class="p">:</span> <span class="n">WorkerQueue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle the streaming connunication for the given :code:`task`</span>
+<span class="sd">        using the provided :code:`queue`. This function should</span>
+<span class="sd">        block until the communication for the given task has finished.</span>
+<span class="sd">        It may be run in a background thread on the main node,</span>
+<span class="sd">        or synchronously, depending on the :code:`JobExecutor`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        task : TaskProtocol</span>
+
+<span class="sd">        queue : WorkerQueue</span>
+<span class="sd">            A queue used to communicate with the worker process</span>
+<span class="sd">            using an acquisition-specific protocol. The `Partition`</span>
+<span class="sd">            in the worker has access to this queue, too, and can</span>
+<span class="sd">            communicate using a data-source specific protocol.</span>
+
+<span class="sd">            The `TaskCommHandler` and the `Partition` are tightly</span>
+<span class="sd">            coupled by this protocol, and the queue needs to be &quot;clean&quot;</span>
+<span class="sd">            after the data for a given task has been exchanged.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+
+<div class="viewcode-block" id="TaskCommHandler.start"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.TaskCommHandler.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A lifecycle method that is called before any task has been</span>
+<span class="sd">        run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+
+<div class="viewcode-block" id="TaskCommHandler.done"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.TaskCommHandler.done">[docs]</a>    <span class="k">def</span> <span class="nf">done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A lifecycle method that is called after all tasks have benn</span>
+<span class="sd">        run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div></div>
+
+
+<div class="viewcode-block" id="NoopCommHandler"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.NoopCommHandler">[docs]</a><span class="k">class</span> <span class="nc">NoopCommHandler</span><span class="p">(</span><span class="n">TaskCommHandler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A `TaskCommHandler` that doesn&#39;t perform any action, and doesn&#39;t</span>
+<span class="sd">    stream any data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NoopCommHandler.handle_task"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.NoopCommHandler.handle_task">[docs]</a>    <span class="k">def</span> <span class="nf">handle_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="n">TaskProtocol</span><span class="p">,</span> <span class="n">queue</span><span class="p">:</span> <span class="n">WorkerQueue</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="NoopCommHandler.start"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.NoopCommHandler.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="NoopCommHandler.done"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.NoopCommHandler.done">[docs]</a>    <span class="k">def</span> <span class="nf">done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
 </pre></div>
 
            </div>

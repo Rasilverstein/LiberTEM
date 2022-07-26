@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>libertem.io.dataset.base.partition &mdash; LiberTEM 0.10.0.dev0 documentation</title>
+  <title>libertem.io.dataset.base.partition &mdash; LiberTEM 0.10.0rc1 documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
@@ -102,7 +102,7 @@
              
   <h1>Source code for libertem.io.dataset.base.partition</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -114,6 +114,10 @@
 <span class="kn">from</span> <span class="nn">.fileset</span> <span class="kn">import</span> <span class="n">FileSet</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">IOBackend</span>
 <span class="kn">from</span> <span class="nn">.decode</span> <span class="kn">import</span> <span class="n">Decoder</span>
+
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">libertem.common.executor</span> <span class="kn">import</span> <span class="n">WorkerContext</span>
 
 
 <div class="viewcode-block" id="WritablePartition"><a class="viewcode-back" href="../../../../../reference/dataset.html#libertem.io.dataset.base.WritablePartition">[docs]</a><span class="k">class</span> <span class="nc">WritablePartition</span><span class="p">:</span>
@@ -189,6 +193,9 @@
 <div class="viewcode-block" id="Partition.set_corrections"><a class="viewcode-back" href="../../../../../reference/dataset.html#libertem.io.dataset.base.Partition.set_corrections">[docs]</a>    <span class="k">def</span> <span class="nf">set_corrections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">corrections</span><span class="p">:</span> <span class="n">CorrectionSet</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
+<div class="viewcode-block" id="Partition.set_worker_context"><a class="viewcode-back" href="../../../../../reference/dataset.html#libertem.io.dataset.base.Partition.set_worker_context">[docs]</a>    <span class="k">def</span> <span class="nf">set_worker_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_context</span><span class="p">:</span> <span class="s2">&quot;WorkerContext&quot;</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
 <div class="viewcode-block" id="Partition.get_tiles"><a class="viewcode-back" href="../../../../../reference/dataset.html#libertem.io.dataset.base.Partition.get_tiles">[docs]</a>    <span class="k">def</span> <span class="nf">get_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tiling_scheme</span><span class="p">,</span> <span class="n">dest_dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="n">roi</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
@@ -262,6 +269,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_start_frame</span> <span class="o">=</span> <span class="n">start_frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_frames</span> <span class="o">=</span> <span class="n">num_frames</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_corrections</span> <span class="o">=</span> <span class="n">CorrectionSet</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;WorkerContext&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">num_frames</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;invalid number of frames: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">num_frames</span><span class="p">)</span>
 
@@ -323,6 +331,9 @@
 
 <div class="viewcode-block" id="BasePartition.set_corrections"><a class="viewcode-back" href="../../../../../reference/dataset.html#libertem.io.dataset.base.BasePartition.set_corrections">[docs]</a>    <span class="k">def</span> <span class="nf">set_corrections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">corrections</span><span class="p">:</span> <span class="n">CorrectionSet</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_corrections</span> <span class="o">=</span> <span class="n">corrections</span></div>
+
+<div class="viewcode-block" id="BasePartition.set_worker_context"><a class="viewcode-back" href="../../../../../reference/dataset.html#libertem.io.dataset.base.BasePartition.set_worker_context">[docs]</a>    <span class="k">def</span> <span class="nf">set_worker_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_context</span><span class="p">:</span> <span class="s2">&quot;WorkerContext&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_context</span> <span class="o">=</span> <span class="n">worker_context</span></div>
 
 <div class="viewcode-block" id="BasePartition.get_tiles"><a class="viewcode-back" href="../../../../../reference/dataset.html#libertem.io.dataset.base.BasePartition.get_tiles">[docs]</a>    <span class="k">def</span> <span class="nf">get_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tiling_scheme</span><span class="p">:</span> <span class="n">TilingScheme</span><span class="p">,</span> <span class="n">dest_dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="n">roi</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

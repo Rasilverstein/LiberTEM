@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>libertem.executor.inline &mdash; LiberTEM 0.10.0.dev0 documentation</title>
+  <title>libertem.executor.inline &mdash; LiberTEM 0.10.0rc1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
@@ -107,9 +107,19 @@
 <span class="kn">import</span> <span class="nn">contextlib</span>
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">BaseJobExecutor</span>
-<span class="kn">from</span> <span class="nn">libertem.common.executor</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">TaskProtocol</span>
+<span class="kn">from</span> <span class="nn">libertem.common.executor</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Environment</span><span class="p">,</span> <span class="n">SimpleWorkerQueue</span><span class="p">,</span> <span class="n">TaskCommHandler</span><span class="p">,</span> <span class="n">TaskProtocol</span><span class="p">,</span> <span class="n">WorkerContext</span><span class="p">,</span> <span class="n">WorkerQueue</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">libertem.common.scheduler</span> <span class="kn">import</span> <span class="n">Worker</span><span class="p">,</span> <span class="n">WorkerSet</span>
 <span class="kn">from</span> <span class="nn">libertem.common.backend</span> <span class="kn">import</span> <span class="n">get_use_cuda</span>
+
+
+<div class="viewcode-block" id="InlineWorkerContext"><a class="viewcode-back" href="../../../dev/executors.html#libertem.executor.inline.InlineWorkerContext">[docs]</a><span class="k">class</span> <span class="nc">InlineWorkerContext</span><span class="p">(</span><span class="n">WorkerContext</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queue</span><span class="p">:</span> <span class="n">SimpleWorkerQueue</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span> <span class="o">=</span> <span class="n">queue</span>
+
+    <span class="k">def</span> <span class="nf">get_worker_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WorkerQueue</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span></div>
 
 
 <div class="viewcode-block" id="InlineJobExecutor"><a class="viewcode-back" href="../../../dev/executors.html#libertem.executor.inline.InlineJobExecutor">[docs]</a><span class="k">class</span> <span class="nc">InlineJobExecutor</span><span class="p">(</span><span class="n">BaseJobExecutor</span><span class="p">):</span>
@@ -140,18 +150,27 @@
         <span class="n">tasks</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TaskProtocol</span><span class="p">],</span>
         <span class="n">params_handle</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">cancel_id</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">task_comm_handler</span><span class="p">:</span> <span class="n">TaskCommHandler</span><span class="p">,</span>
     <span class="p">):</span>
+        <span class="n">worker_queue</span> <span class="o">=</span> <span class="n">SimpleWorkerQueue</span><span class="p">()</span>
+        <span class="n">task_comm_handler</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
         <span class="n">threads</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inline_threads</span>
         <span class="k">if</span> <span class="n">threads</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">threads</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(</span><span class="n">logical</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">threads_per_worker</span><span class="o">=</span><span class="n">threads</span><span class="p">,</span> <span class="n">threaded_executor</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span>
+            <span class="n">threads_per_worker</span><span class="o">=</span><span class="n">threads</span><span class="p">,</span>
+            <span class="n">threaded_executor</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">worker_context</span><span class="o">=</span><span class="n">InlineWorkerContext</span><span class="p">(</span><span class="n">queue</span><span class="o">=</span><span class="n">worker_queue</span><span class="p">),</span>
+        <span class="p">)</span>
         <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug</span><span class="p">:</span>
                 <span class="n">cloudpickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cloudpickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">task</span><span class="p">))</span>
+            <span class="n">task_comm_handler</span><span class="o">.</span><span class="n">handle_task</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">worker_queue</span><span class="p">)</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params_handle</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug</span><span class="p">:</span>
                 <span class="n">cloudpickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cloudpickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
-            <span class="k">yield</span> <span class="n">result</span><span class="p">,</span> <span class="n">task</span></div>
+            <span class="k">yield</span> <span class="n">result</span><span class="p">,</span> <span class="n">task</span>
+        <span class="n">task_comm_handler</span><span class="o">.</span><span class="n">done</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="InlineJobExecutor.run_function"><a class="viewcode-back" href="../../../dev/executors.html#libertem.executor.inline.InlineJobExecutor.run_function">[docs]</a>    <span class="k">def</span> <span class="nf">run_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug</span><span class="p">:</span>
