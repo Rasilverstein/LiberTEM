@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>libertem.common.executor &mdash; LiberTEM 0.10.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> LiberTEM
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.10
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">GUI usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../applications.html">Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Loading data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sample_datasets.html">Sample Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../udf.html">User-defined functions (UDFs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dask.html">Dask integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citing.html">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../acknowledgments.html">Acknowledgments</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Python API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tips.html">Tips and tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages.html">Package overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../why_python.html">Why Python?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">For developers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/setup.html">Setting up a development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/executors.html">LiberTEM executors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gsoc.html">GSoC 2020 ideas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authorship.html">Authorship policy</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">LiberTEM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>libertem.common.executor</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for libertem.common.executor</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Protocol</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+
+<span class="kn">from</span> <span class="nn">libertem.common.threading</span> <span class="kn">import</span> <span class="n">set_num_threads</span><span class="p">,</span> <span class="n">mitigations</span>
+
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">libertem.udf.base</span> <span class="kn">import</span> <span class="n">UDFParams</span><span class="p">,</span> <span class="n">UDFRunner</span>
+    <span class="kn">from</span> <span class="nn">opentelemetry.trace</span> <span class="kn">import</span> <span class="n">SpanContext</span>
+
+
+<div class="viewcode-block" id="ExecutorError"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.ExecutorError">[docs]</a><span class="k">class</span> <span class="nc">ExecutorError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="JobCancelledError"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobCancelledError">[docs]</a><span class="k">class</span> <span class="nc">JobCancelledError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    raised by async executors in run_tasks() or run_each_partition() if the task was cancelled</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Environment"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.Environment">[docs]</a><span class="k">class</span> <span class="nc">Environment</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create the environment to run a task, in particular thread count.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threads_per_worker</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">threaded_executor</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_threads_per_worker</span> <span class="o">=</span> <span class="n">threads_per_worker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_threaded_executor</span> <span class="o">=</span> <span class="n">threaded_executor</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">threads_per_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        int or None : number of threads that a UDF is allowed to use in the `process_*` method.</span>
+<span class="sd">                      For numba, pyfftw, OMP, MKL, OpenBLAS, this limit is set automatically;</span>
+<span class="sd">                      this property can be used for other cases, like manually creating</span>
+<span class="sd">                      thread pools.</span>
+<span class="sd">                      None means no limit is set, and the UDF can use any number of threads</span>
+<span class="sd">                      it deems necessary (should be limited to system limits, of course).</span>
+
+<span class="sd">        See also: :func:`libertem.common.threading.set_num_threads`</span>
+
+<span class="sd">        .. versionadded:: 0.7.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threads_per_worker</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">threaded_executor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threaded_executor</span>
+
+<div class="viewcode-block" id="Environment.enter"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.Environment.enter">[docs]</a>    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Note: we are using the @contextmanager decorator here,</span>
+<span class="sd">        because with separate `__enter__`, `__exit__` methods,</span>
+<span class="sd">        we can&#39;t easily delegate to `set_num_threads`, or other</span>
+<span class="sd">        contextmanagers that may come later.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">set_num_threads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_threads_per_worker</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">threaded_executor</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">mitigations</span><span class="p">():</span>
+                    <span class="k">yield</span> <span class="bp">self</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="bp">self</span></div></div>
+
+
+<div class="viewcode-block" id="TaskProtocol"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.TaskProtocol">[docs]</a><span class="k">class</span> <span class="nc">TaskProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Interface for tasks</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="s2">&quot;UDFParams&quot;</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">get_tracing_span_context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SpanContext&quot;</span><span class="p">:</span>
+        <span class="o">...</span></div>
+
+
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="JobExecutor"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor">[docs]</a><span class="k">class</span> <span class="nc">JobExecutor</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Interface to execute functions on workers.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<div class="viewcode-block" id="JobExecutor.run_function"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.run_function">[docs]</a>    <span class="k">def</span> <span class="nf">run_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        run a callable `fn` on any worker</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="JobExecutor.scatter"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.scatter">[docs]</a>    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Scatter :code:`obj` throughout the cluster</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        obj</span>
+<span class="sd">            Some kind of Python object or variable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        handle</span>
+<span class="sd">            Handle for the scattered :code:`obj`</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="JobExecutor.run_tasks"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.run_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">run_tasks</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tasks</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TaskProtocol</span><span class="p">],</span>
+        <span class="n">params_handle</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">cancel_id</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the tasks with the given parameters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tasks</span>
+<span class="sd">            The tasks to be run</span>
+<span class="sd">        params_handle : [type]</span>
+<span class="sd">            A handle for the task parameters, as returned from :meth:`JobExecutor.scatter`</span>
+<span class="sd">        cancel_id</span>
+<span class="sd">            An identifier which can be used for cancelling all tasks together. The</span>
+<span class="sd">            same identifier should be passed to :meth:`AsyncJobExecutor.cancel`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="JobExecutor.run_each_partition"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.run_each_partition">[docs]</a>    <span class="k">def</span> <span class="nf">run_each_partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">partitions</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">all_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run `fn` for all partitions. Yields results in order of completion.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        partitions : List[Partition]</span>
+<span class="sd">            List of relevant partitions.</span>
+
+<span class="sd">        fn : callable</span>
+<span class="sd">            Function to call, will get the partition as first and only argument.</span>
+
+<span class="sd">        all_nodes : bool</span>
+<span class="sd">            If all_nodes is True, run the function on all nodes that have this partition,</span>
+<span class="sd">            otherwise run on any node that has the partition. If a partition has no location,</span>
+<span class="sd">            the function will not be run for that partition if `all_nodes` is True, otherwise</span>
+<span class="sd">            it will be run on any node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="JobExecutor.map"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run a callable `fn` for each element in `iterable`, on arbitrary worker nodes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        fn : callable</span>
+<span class="sd">            Function to call. Should accept exactly one parameter.</span>
+
+<span class="sd">        iterable : Iterable</span>
+<span class="sd">            Which elements to call the function on.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="JobExecutor.run_each_host"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.run_each_host">[docs]</a>    <span class="k">def</span> <span class="nf">run_each_host</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run a callable `fn` once on each host, gathering all results into a dict host -&gt; result</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        fn : callable</span>
+<span class="sd">            Function to call</span>
+
+<span class="sd">        *args</span>
+<span class="sd">            Arguments for fn</span>
+
+<span class="sd">        **kwargs</span>
+<span class="sd">            Keyword arguments for fn</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="JobExecutor.run_each_worker"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.run_each_worker">[docs]</a>    <span class="k">def</span> <span class="nf">run_each_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run :code:`fn` on each worker process, and pass :code:`*args`,</span>
+<span class="sd">        :code:`**kwargs` to it.</span>
+
+<span class="sd">        Useful, for example, if you need to prepare the environment of</span>
+<span class="sd">        each Python interpreter, warm up per-process caches etc.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fn : callable</span>
+<span class="sd">            Function to call</span>
+<span class="sd">        \\*args</span>
+<span class="sd">            Arguments for fn</span>
+<span class="sd">        \\*\\*kwargs</span>
+<span class="sd">            Keyword arguments for fn</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Return values keyed by worker name (executor-specific)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="JobExecutor.close"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        cleanup resources used by this executor, if any</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="JobExecutor.get_available_workers"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.get_available_workers">[docs]</a>    <span class="k">def</span> <span class="nf">get_available_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of dicts with available workers</span>
+
+<span class="sd">        keys of the dictionary:</span>
+<span class="sd">            name : an identifying name of the worker</span>
+<span class="sd">            host : ip address or hostname where the worker is running</span>
+
+<span class="sd">        Each worker should correspond to a &quot;worker process&quot;, so if the executor</span>
+<span class="sd">        is using multiple processes or threads, each process/thread should be</span>
+<span class="sd">        included in this list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="JobExecutor.get_resource_details"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.get_resource_details">[docs]</a>    <span class="k">def</span> <span class="nf">get_resource_details</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of dicts with cluster details</span>
+
+<span class="sd">        key of the dictionary:</span>
+<span class="sd">            host: ip address or hostname where the worker is running</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="JobExecutor.ensure_sync"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.ensure_sync">[docs]</a>    <span class="k">def</span> <span class="nf">ensure_sync</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a synchronous executor, incase of a `JobExecutor` we just</span>
+<span class="sd">        return `self; in case of `AsyncJobExecutor` below more work is needed!</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="JobExecutor.ensure_async"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.ensure_async">[docs]</a>    <span class="k">def</span> <span class="nf">ensure_async</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an asynchronous executor; by default just wrap into `AsyncAdapter`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="JobExecutor.modify_buffer_type"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.JobExecutor.modify_buffer_type">[docs]</a>    <span class="k">def</span> <span class="nf">modify_buffer_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buf</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Allow the executor to modify result buffers if necessary</span>
+
+<span class="sd">        Currently only called for buffers on the main node</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">buf</span></div>
+
+    <span class="k">def</span> <span class="nf">get_udf_runner</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;UDFRunner&#39;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="AsyncJobExecutor"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.AsyncJobExecutor">[docs]</a><span class="k">class</span> <span class="nc">AsyncJobExecutor</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Async version of :class:`JobExecutor`.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<div class="viewcode-block" id="AsyncJobExecutor.run_tasks"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.AsyncJobExecutor.run_tasks">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">run_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">params_handle</span><span class="p">,</span> <span class="n">cancel_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run a number of Tasks, yielding (result, task) tuples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="AsyncJobExecutor.run_function"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.AsyncJobExecutor.run_function">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">run_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run a callable `fn` on any worker</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">run_each_partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">partitions</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">all_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+<div class="viewcode-block" id="AsyncJobExecutor.map"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.AsyncJobExecutor.map">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run a callable `fn` for each item in iterable, on arbitrary worker nodes</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        fn : callable</span>
+<span class="sd">            Function to call. Should accept exactly one parameter.</span>
+
+<span class="sd">        iterable : Iterable</span>
+<span class="sd">            Which elements to call the function on.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">run_each_host</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+<div class="viewcode-block" id="AsyncJobExecutor.run_each_worker"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.AsyncJobExecutor.run_each_worker">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">run_each_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run :code:`fn` on each worker process, and pass :code:`*args`, :code:`**kwargs` to it.</span>
+
+<span class="sd">        Useful, for example, if you need to prepare the environment of</span>
+<span class="sd">        each Python interpreter, warm up per-process caches etc.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fn : callable</span>
+<span class="sd">            Function to call</span>
+<span class="sd">        \\*args</span>
+<span class="sd">            Arguments for fn</span>
+
+<span class="sd">        \\*\\*kwargs</span>
+<span class="sd">            Keyword arguments for fn</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="AsyncJobExecutor.close"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.AsyncJobExecutor.close">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cleanup resources used by this executor, if any.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="AsyncJobExecutor.cancel"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.AsyncJobExecutor.cancel">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cancel_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        cancel execution identified by `cancel_id`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_available_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_resource_details</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">ensure_sync</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+<div class="viewcode-block" id="AsyncJobExecutor.ensure_async"><a class="viewcode-back" href="../../../dev/executors.html#libertem.common.executor.AsyncJobExecutor.ensure_async">[docs]</a>    <span class="k">def</span> <span class="nf">ensure_async</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an asynchronous executor; by default just return `self`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">get_udf_runner</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;UDFRunner&#39;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, LiberTEM Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
