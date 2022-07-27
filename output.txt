@@ -1,13 +1,5 @@
-Results of doctest builder run on 2022-07-26 16:28:10
+Results of doctest builder run on 2022-07-27 08:49:32
 =====================================================
-
-Document: reference/corrections
--------------------------------
-1 items passed all tests:
-   2 tests in default
-2 tests in 1 items.
-2 passed and 0 failed.
-Test passed.
 
 Document: debugging
 -------------------
@@ -19,19 +11,12 @@ Document: debugging
 5 passed and 0 failed.
 Test passed.
 
-Document: sample_datasets
--------------------------
-2 items passed all tests:
-   2 tests in sampledatahdf5
-   2 tests in sampledataraw
-4 tests in 2 items.
-4 passed and 0 failed.
-Test passed.
-2 items passed all tests:
-   1 tests in sampledatahdf5 (cleanup code)
-   1 tests in sampledataraw (cleanup code)
-2 tests in 2 items.
-2 passed and 0 failed.
+Document: udf/profiling
+-----------------------
+1 items passed all tests:
+   1 tests in default
+1 tests in 1 items.
+1 passed and 0 failed.
 Test passed.
 
 Document: tips
@@ -50,22 +35,6 @@ Document: app/holography
 9 passed and 0 failed.
 Test passed.
 
-Document: udf
--------------
-1 items passed all tests:
-   1 tests in autoudf
-1 tests in 1 items.
-1 passed and 0 failed.
-Test passed.
-
-Document: udf/profiling
------------------------
-1 items passed all tests:
-   1 tests in default
-1 tests in 1 items.
-1 passed and 0 failed.
-Test passed.
-
 Document: udf/advanced
 ----------------------
 1 items passed all tests:
@@ -79,12 +48,12 @@ Test passed.
 2 passed and 0 failed.
 Test passed.
 
-Document: changelog
--------------------
+Document: reference/corrections
+-------------------------------
 1 items passed all tests:
-   1 tests in jobdeprecation
-1 tests in 1 items.
-1 passed and 0 failed.
+   2 tests in default
+2 tests in 1 items.
+2 passed and 0 failed.
 Test passed.
 
 Document: dask
@@ -99,6 +68,37 @@ Document: dask
 Test passed.
 1 items passed all tests:
    1 tests in merge_all (cleanup code)
+1 tests in 1 items.
+1 passed and 0 failed.
+Test passed.
+
+Document: sample_datasets
+-------------------------
+2 items passed all tests:
+   2 tests in sampledatahdf5
+   2 tests in sampledataraw
+4 tests in 2 items.
+4 passed and 0 failed.
+Test passed.
+2 items passed all tests:
+   1 tests in sampledatahdf5 (cleanup code)
+   1 tests in sampledataraw (cleanup code)
+2 tests in 2 items.
+2 passed and 0 failed.
+Test passed.
+
+Document: udf
+-------------
+1 items passed all tests:
+   1 tests in autoudf
+1 tests in 1 items.
+1 passed and 0 failed.
+Test passed.
+
+Document: changelog
+-------------------
+1 items passed all tests:
+   1 tests in jobdeprecation
 1 tests in 1 items.
 1 passed and 0 failed.
 Test passed.
