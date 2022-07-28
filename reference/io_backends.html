@@ -78,9 +78,6 @@
 <li class="toctree-l2"><a class="reference internal" href="sparse.html">Sparse array utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="internals.html">Internal API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dask.html">Dask API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dask.html#dask-result-buffer">Dask result buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cluster-ds.html">Cluster data set</a></li>
-<li class="toctree-l2"><a class="reference internal" href="caching.html">Distributed caching layer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="corrections.html">Corrections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viz.html">Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
@@ -100,7 +97,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -179,7 +175,7 @@ better best-case performance, try using
 <a class="reference internal" href="dataset.html#libertem.io.dataset.base.MMapBackend" title="libertem.io.dataset.base.MMapBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">MMapBackend</span></code></a> instead.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>max_buffer_size</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Maximum buffer size, in bytes. This is passed to the tileshape
+<dd class="field-odd"><p><strong>max_buffer_size</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Maximum buffer size, in bytes. This is passed to the tileshape
 negotiation to select the right depth.</p>
 </dd>
 </dl>
@@ -195,7 +191,7 @@ negotiation to select the right depth.</p>
 systems.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>enable_readahead_hints</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Linux only. Try to influence readahead behavior (experimental).</p>
+<dd class="field-odd"><p><strong>enable_readahead_hints</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Linux only. Try to influence readahead behavior (experimental).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -215,7 +211,7 @@ is not efficient, as the system is constantly under memory pressure.  In
 that case, this backend can perform much better.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>max_buffer_size</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Maximum buffer size, in bytes. This is passed to the tileshape
+<dd class="field-odd"><p><strong>max_buffer_size</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Maximum buffer size, in bytes. This is passed to the tileshape
 negotiation to select the right depth.</p>
 </dd>
 </dl>

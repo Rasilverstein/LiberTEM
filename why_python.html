@@ -79,7 +79,6 @@
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -145,19 +144,19 @@ each interaction.</p>
 <h2>Isn’t Python slow?<a class="headerlink" href="#isn-t-python-slow" title="Permalink to this heading"></a></h2>
 <p>Yes, it can be slow, but we mostly use Python for setting up the computation, creating buffers,
 setting parameters, etc. We use it as a glue language for native parts
-(libhdfs3, numpy/OpenBLAS, …) or use <a class="reference external" href="https://numba.pydata.org/">Numba</a> for critical
+(NumPy/OpenBLAS, …) or use <a class="reference external" href="https://numba.pydata.org/">Numba</a> for critical
 code sections.</p>
 <p>See for example this profile, visualized as a flamegraph:</p>
 <img alt="_images/read_from_hdfs_profile.png" src="_images/read_from_hdfs_profile.png" />
 <p>The workload is similar to what LiberTEM will later do: it reads files from HDFS
 and does matrix multiplication on the data.</p>
-<p>Most of the time is spent reading the file (block on the left: <cite>sys_read</cite>) or
-actually performing the matrix multiplication (center block: anything containing <cite>dgemm</cite>).
+<p>Most of the time is spent reading the file (block on the left: <code class="code docutils literal notranslate"><span class="pre">sys_read</span></code>) or
+actually performing the matrix multiplication (center block: anything containing <code class="code docutils literal notranslate"><span class="pre">dgemm</span></code>).
 The Python parts are mostly in the narrow (= little time) but high (= deep call stacks)
 pillar on the right. The dask scheduler is also visible in the profile, but takes up
 less than 2% of the total samples.</p>
-<p>Note the <cite>swapper</cite> part on the right: this was a full-system profile, so unrelated
-things like <cite>swapper</cite> or <cite>intel_idle</cite> are also included.</p>
+<p>Note the <code class="code docutils literal notranslate"><span class="pre">swapper</span></code> part on the right: this was a full-system profile, so unrelated
+things like <code class="code docutils literal notranslate"><span class="pre">swapper</span></code> or <code class="code docutils literal notranslate"><span class="pre">intel_idle</span></code> are also included.</p>
 </section>
 <section id="but-what-about-multicore-scaling">
 <h2>But what about (multicore) scaling?<a class="headerlink" href="#but-what-about-multicore-scaling" title="Permalink to this heading"></a></h2>

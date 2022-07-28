@@ -87,7 +87,6 @@
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -173,10 +172,9 @@ you can try to reproduce the problem using the Python API and follow the instruc
 <p>If you are trying to write a UDF, or debug other Python parts of LiberTEM, you can
 instruct LiberTEM to use simple single-threaded execution using the
 <a class="reference internal" href="dev/executors.html#libertem.executor.inline.InlineJobExecutor" title="libertem.executor.inline.InlineJobExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">InlineJobExecutor</span></code></a>.</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">libertem.executor.inline</span> <span class="kn">import</span> <span class="n">InlineJobExecutor</span>
-<span class="kn">from</span> <span class="nn">libertem</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">lt</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">libertem</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">lt</span>
 
-<span class="n">ctx</span> <span class="o">=</span> <span class="n">lt</span><span class="o">.</span><span class="n">Context</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">InlineJobExecutor</span><span class="p">())</span>
+<span class="n">ctx</span> <span class="o">=</span> <span class="n">lt</span><span class="o">.</span><span class="n">Context</span><span class="o">.</span><span class="n">make_with</span><span class="p">(</span><span class="s1">&#39;inline&#39;</span><span class="p">)</span>
 
 <span class="n">ctx</span><span class="o">.</span><span class="n">run_udf</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span> <span class="n">udf</span><span class="o">=</span><span class="n">udf</span><span class="p">)</span>
 </pre></div>
@@ -188,12 +186,11 @@ instruct LiberTEM to use simple single-threaded execution using the
 by default. It can be switched to GPU processing to test CuPy-enabled UDFs by
 calling <a class="reference internal" href="reference/internals.html#libertem.common.backend.set_use_cuda" title="libertem.common.backend.set_use_cuda"><code class="xref py py-meth docutils literal notranslate"><span class="pre">libertem.common.backend.set_use_cuda()</span></code></a> with the device ID to use.
 <code class="code docutils literal notranslate"><span class="pre">libertem.common.backend.set_use_cpu(0)</span></code> switches back to CPU processing.</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">libertem.executor.inline</span> <span class="kn">import</span> <span class="n">InlineJobExecutor</span>
-<span class="kn">from</span> <span class="nn">libertem</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">lt</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">libertem</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">lt</span>
 <span class="kn">from</span> <span class="nn">libertem.utils.devices</span> <span class="kn">import</span> <span class="n">detect</span>
 <span class="kn">from</span> <span class="nn">libertem.common.backend</span> <span class="kn">import</span> <span class="n">set_use_cpu</span><span class="p">,</span> <span class="n">set_use_cuda</span>
 
-<span class="n">ctx</span> <span class="o">=</span> <span class="n">lt</span><span class="o">.</span><span class="n">Context</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">InlineJobExecutor</span><span class="p">())</span>
+<span class="n">ctx</span> <span class="o">=</span> <span class="n">lt</span><span class="o">.</span><span class="n">Context</span><span class="o">.</span><span class="n">make_with</span><span class="p">(</span><span class="s1">&#39;inline&#39;</span><span class="p">)</span>
 
 <span class="n">d</span> <span class="o">=</span> <span class="n">detect</span><span class="p">()</span>
 <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;cudas&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;has_cupy&#39;</span><span class="p">]:</span>
@@ -211,7 +208,7 @@ this is also the case when debugging problems that only occur in context of the 
 <h2>Debugging failing test cases<a class="headerlink" href="#debugging-failing-test-cases" title="Permalink to this heading"></a></h2>
 <p>When a test case fails, there are some options to find the root cause:</p>
 <p>The <code class="code docutils literal notranslate"><span class="pre">--pdb</span></code> command line switch of pytest can be used to automatically
-drop you into a PDB prompt in the failing test case, where you will either land
+drop you into a <a class="reference external" href="https://docs.python.org/3.10/library/pdb.html#module-pdb" title="(in Python v3.10)"><code class="docutils literal notranslate"><span class="pre">pdb</span></code></a> prompt in the failing test case, where you will either land
 on the failing <code class="code docutils literal notranslate"><span class="pre">assert</span></code> statement, or the place in the code where an
 exception was raised.</p>
 <p>This does not help if the test case only fails in CI. Here, it may be easier to
@@ -223,7 +220,7 @@ variables. In some cases you may also leave the logging statements in the code
 even after the problem is fixed, depending on the overhead.</p>
 </section>
 <section id="tracing-using-opentelemetry">
-<h2>Tracing using opentelemetry<a class="headerlink" href="#tracing-using-opentelemetry" title="Permalink to this heading"></a></h2>
+<span id="tracing"></span><h2>Tracing using opentelemetry<a class="headerlink" href="#tracing-using-opentelemetry" title="Permalink to this heading"></a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.10.0: </span>Tracing support using opentelemetry was added in version 0.10.0</p>
 </div>
@@ -281,20 +278,13 @@ for example, in a notebook:</p>
 </div>
 <p>Be sure to change the endpoint URL to whatever is the correct one from the
 perspective of the worker process in the distributed case.</p>
-<p>For enabling tracing across multiple Python processes, possibly on multiple
-nodes, set the environment variables for each of these processes, and also call
-the <code class="xref py py-func docutils literal notranslate"><span class="pre">maybe_setup_tracing()</span></code> function on each.
-If these are workers managed by an executor, you can use the <code class="code docutils literal notranslate"><span class="pre">run_each_worker</span></code>
-method to accomplish this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">libertem.common.tracing</span> <span class="kn">import</span> <span class="n">maybe_setup_tracing</span>
-<span class="kn">from</span> <span class="nn">libertem.api</span> <span class="kn">import</span> <span class="n">Context</span>
-<span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
-<span class="n">ctx</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">run_each_worker</span><span class="p">(</span><span class="n">maybe_setup_tracing</span><span class="p">,</span> <span class="n">service_name</span><span class="o">=</span><span class="s2">&quot;libertem-worker&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Support for setting up tracing on workers automatically is already integrated
-in the dask and pipelined executors. The inline executor doesn’t need any
+<p>Support for setting up tracing on workers is already integrated
+in the Dask and pipelined executors. The inline executor doesn’t need any
 additional setup for tracing to work.</p>
+<p>For enabling tracing across multiple Python processes in other scenarios,
+possibly on multiple nodes, set the environment variables for each of these
+processes, and also call the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">maybe_setup_tracing()</span></code> function on each.</p>
 </section>
 <section id="on-windows">
 <h3>On Windows<a class="headerlink" href="#on-windows" title="Permalink to this heading"></a></h3>

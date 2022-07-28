@@ -80,9 +80,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../sparse.html">Sparse array utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../internals.html">Internal API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../dask.html">Dask API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../dask.html#dask-result-buffer">Dask result buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cluster-ds.html">Cluster data set</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../caching.html">Distributed caching layer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../corrections.html">Corrections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../viz.html">Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#indices-and-tables">Indices and tables</a></li>
@@ -102,7 +99,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -187,13 +183,13 @@ the raw data in the result.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>out_shape</strong> (<em>(</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>)</em>) – Shape of the returned complex wave image. Note that the result should fit into the
+<li><p><strong>out_shape</strong> (<em>(</em><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>)</em>) – Shape of the returned complex wave image. Note that the result should fit into the
 main memory.
 See <a class="reference internal" href="../../app/holography.html#holography-app"><span class="std std-ref">Off-axis electron holography</span></a> for more details</p></li>
-<li><p><strong>sb_position</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a><em>, or </em><em>vector</em>) – Coordinates of sideband position with respect to non-shifted FFT of a hologram</p></li>
-<li><p><strong>sb_size</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Radius of side band filter in pixels</p></li>
-<li><p><strong>sb_smoothness</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>Default: 0.05</em><em>)</em>) – Fraction of <cite>sb_size</cite> over which the edge of the filter aperture to be smoothed</p></li>
-<li><p><strong>precision</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em><em>, </em><em>(</em><em>Default: True</em><em>)</em>) – Defines precision of the reconstruction, True for complex128 for the resulting
+<li><p><strong>sb_position</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a><em>, or </em><em>vector</em>) – Coordinates of sideband position with respect to non-shifted FFT of a hologram</p></li>
+<li><p><strong>sb_size</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Radius of side band filter in pixels</p></li>
+<li><p><strong>sb_smoothness</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>Default: 0.05</em><em>)</em>) – Fraction of <cite>sb_size</cite> over which the edge of the filter aperture to be smoothed</p></li>
+<li><p><strong>precision</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>optional</em><em>, </em><em>(</em><em>Default: True</em><em>)</em>) – Defines precision of the reconstruction, True for complex128 for the resulting
 complex wave, otherwise results will be complex64</p></li>
 </ul>
 </dd>
@@ -224,7 +220,7 @@ complex wave, otherwise results will be complex64</p></li>
 <code class="code docutils literal notranslate"><span class="pre">cupy</span></code></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Iterable[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+<dd class="field-even"><p>Iterable[<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -300,8 +296,8 @@ Slice for slicing FFT of the hologram</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shape</strong> (<em>(</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>)</em>) – The shape of the array.</p></li>
-<li><p><strong>sampling</strong> (<em>(</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>)</em><em>, </em><em>optional</em><em>, </em><em>(</em><em>Default:</em><em> (</em><em>1.</em><em>, </em><em>1.</em><em>)</em><em>)</em>) – The sampling rates of the array.</p></li>
+<li><p><strong>shape</strong> (<em>(</em><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>)</em>) – The shape of the array.</p></li>
+<li><p><strong>sampling</strong> (<em>(</em><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>)</em><em>, </em><em>optional</em><em>, </em><em>(</em><em>Default:</em><em> (</em><em>1.</em><em>, </em><em>1.</em><em>)</em><em>)</em>) – The sampling rates of the array.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -331,14 +327,14 @@ doi:10.1088/0034-4885/71/1/016102
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>amp</strong> (<em>np.ndarray</em><em>, </em><em>2d</em>) – normalized amplitude and phase images of the same shape</p></li>
 <li><p><strong>phi</strong> (<em>np.ndarray</em><em>, </em><em>2d</em>) – normalized amplitude and phase images of the same shape</p></li>
-<li><p><strong>counts</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>default: 1000.</em>) – Number of electron counts in vacuum</p></li>
-<li><p><strong>sampling</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>default: 5.</em>) – Hologram fringe sampling (number of pixels per fringe)</p></li>
-<li><p><strong>visibility</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>default: 1.</em>) – Hologram fringe visibility (aka fringe contrast)</p></li>
-<li><p><strong>f_angle</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>default: 30.</em>) – Angle in degrees of hologram fringes with respect to X-axis</p></li>
-<li><p><strong>gaussian_noise</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em> or </em><em>None</em><em>, </em><em>default: None.</em>) – Amount of Gaussian smoothing determined by sigma parameter
+<li><p><strong>counts</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>default: 1000.</em>) – Number of electron counts in vacuum</p></li>
+<li><p><strong>sampling</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>default: 5.</em>) – Hologram fringe sampling (number of pixels per fringe)</p></li>
+<li><p><strong>visibility</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>default: 1.</em>) – Hologram fringe visibility (aka fringe contrast)</p></li>
+<li><p><strong>f_angle</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>default: 30.</em>) – Angle in degrees of hologram fringes with respect to X-axis</p></li>
+<li><p><strong>gaussian_noise</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em> or </em><em>None</em><em>, </em><em>default: None.</em>) – Amount of Gaussian smoothing determined by sigma parameter
 applied to the hologram simulating effect of focus spread or
 PSF of the detector.</p></li>
-<li><p><strong>poisson_noise</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em> or </em><em>None</em><em>, </em><em>default: None.</em>) – Amount of Poisson applied to the hologram.</p></li>
+<li><p><strong>poisson_noise</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em> or </em><em>None</em><em>, </em><em>default: None.</em>) – Amount of Poisson applied to the hologram.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

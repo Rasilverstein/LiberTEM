@@ -88,7 +88,6 @@
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -271,14 +270,14 @@ sequentially and in order.</p>
 <p><span class="versionmodified added">New in version 0.9.0.</span></p>
 </div>
 <p>The <a class="reference internal" href="dev/executors.html#libertem.executor.concurrent.ConcurrentJobExecutor" title="libertem.executor.concurrent.ConcurrentJobExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConcurrentJobExecutor</span></code></a> runs all tasks
-using <a class="reference external" href="https://docs.python.org/3.7/library/concurrent.futures.html#module-concurrent.futures" title="(in Python v3.7)"><code class="docutils literal notranslate"><span class="pre">concurrent.futures</span></code></a>. Using a
-<a class="reference external" href="https://docs.python.org/3.7/library/concurrent.futures.html#concurrent.futures.ThreadPoolExecutor" title="(in Python v3.7)"><code class="docutils literal notranslate"><span class="pre">concurrent.futures.ThreadPoolExecutor</span></code></a>, which is the deafult behaviour,
+using <a class="reference external" href="https://docs.python.org/3.10/library/concurrent.futures.html#module-concurrent.futures" title="(in Python v3.10)"><code class="docutils literal notranslate"><span class="pre">concurrent.futures</span></code></a>. Using a
+<a class="reference external" href="https://docs.python.org/3.10/library/concurrent.futures.html#concurrent.futures.ThreadPoolExecutor" title="(in Python v3.10)"><code class="docutils literal notranslate"><span class="pre">concurrent.futures.ThreadPoolExecutor</span></code></a>, which is the deafult behaviour,
 allows sharing large amounts of data as well as other resources between the
 main thread and workers efficiently, but is severely slowed down by the
 Python <a class="reference external" href="https://wiki.python.org/moin/GlobalInterpreterLock">global interpreter lock</a>
 under many circumstances. Furthermore, it can create thread safety issues such as
 <a class="reference external" href="https://github.com/LiberTEM/LiberTEM-blobfinder/issues/35">https://github.com/LiberTEM/LiberTEM-blobfinder/issues/35</a>.</p>
-<p>It is also in principle possible to use a <a class="reference external" href="https://docs.python.org/3.7/library/concurrent.futures.html#concurrent.futures.ProcessPoolExecutor" title="(in Python v3.7)"><code class="docutils literal notranslate"><span class="pre">concurrent.futures.ProcessPoolExecutor</span></code></a>
+<p>It is also in principle possible to use a <a class="reference external" href="https://docs.python.org/3.10/library/concurrent.futures.html#concurrent.futures.ProcessPoolExecutor" title="(in Python v3.10)"><code class="docutils literal notranslate"><span class="pre">concurrent.futures.ProcessPoolExecutor</span></code></a>
 as backing for the <a class="reference internal" href="dev/executors.html#libertem.executor.concurrent.ConcurrentJobExecutor" title="libertem.executor.concurrent.ConcurrentJobExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConcurrentJobExecutor</span></code></a>,
 though this is untested and is likely to lead to worse performance than the
 LiberTEM default <a class="reference internal" href="dev/executors.html#libertem.executor.dask.DaskJobExecutor" title="libertem.executor.dask.DaskJobExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">DaskJobExecutor</span></code></a>.</p>

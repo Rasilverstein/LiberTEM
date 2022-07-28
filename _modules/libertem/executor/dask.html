@@ -72,7 +72,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -546,7 +545,7 @@
 
 <div class="viewcode-block" id="DaskJobExecutor.run_function"><a class="viewcode-back" href="../../../dev/executors.html#libertem.executor.dask.DaskJobExecutor.run_function">[docs]</a>    <span class="k">def</span> <span class="nf">run_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        run a callable `fn` on any worker</span>
+<span class="sd">        run a callable :code:`fn` on any worker</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fn_with_args</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">future</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">fn_with_args</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pure</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -554,7 +553,7 @@
 
 <div class="viewcode-block" id="DaskJobExecutor.map"><a class="viewcode-back" href="../../../dev/executors.html#libertem.executor.dask.DaskJobExecutor.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Run a callable `fn` for each element in `iterable`, on arbitrary worker nodes.</span>
+<span class="sd">        Run a callable :code:`fn` for each element in :code:`iterable`, on arbitrary worker nodes.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -570,7 +569,8 @@
 
 <div class="viewcode-block" id="DaskJobExecutor.run_each_host"><a class="viewcode-back" href="../../../dev/executors.html#libertem.executor.dask.DaskJobExecutor.run_each_host">[docs]</a>    <span class="k">def</span> <span class="nf">run_each_host</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Run a callable `fn` once on each host, gathering all results into a dict host -&gt; result</span>
+<span class="sd">        Run a callable :code:`fn` once on each host, gathering all results into</span>
+<span class="sd">        a dict host -&gt; result</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: any cancellation/errors to handle?</span>
         <span class="n">available_workers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_available_workers</span><span class="p">()</span>

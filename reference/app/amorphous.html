@@ -80,9 +80,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../sparse.html">Sparse array utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../internals.html">Internal API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../dask.html">Dask API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../dask.html#dask-result-buffer">Dask result buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cluster-ds.html">Cluster data set</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../caching.html">Distributed caching layer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../corrections.html">Corrections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../viz.html">Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#indices-and-tables">Indices and tables</a></li>
@@ -102,7 +99,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -173,10 +169,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>center</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>]</em>) – (x, y) - coordinates of a center of a ring for a masking region of interest to
+<li><p><strong>center</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>]</em>) – (x, y) - coordinates of a center of a ring for a masking region of interest to
 calculate SD</p></li>
-<li><p><strong>rad_in</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Inner radius of a ring mask</p></li>
-<li><p><strong>rad_out</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Outer radius of a ring mask</p></li>
+<li><p><strong>rad_in</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Inner radius of a ring mask</p></li>
+<li><p><strong>rad_out</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Outer radius of a ring mask</p></li>
 </ul>
 </dd>
 </dl>
@@ -198,9 +194,9 @@ calculate SD</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ctx</strong> (<a class="reference internal" href="../api.html#libertem.api.Context" title="libertem.api.Context"><em>libertem.api.Context</em></a>) – </p></li>
 <li><p><strong>dataset</strong> (<a class="reference internal" href="../dataset.html#libertem.io.dataset.base.DataSet" title="libertem.io.dataset.base.DataSet"><em>libertem.io.dataset.base.DataSet</em></a>) – A dataset with 1- or 2-D scan dimensions and 2-D frame dimensions</p></li>
-<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – (x,y) - coordinates of a center of a ring for a masking region of interest to calculate SD</p></li>
-<li><p><strong>rad_in</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Inner radius of a ring mask</p></li>
-<li><p><strong>rad_out</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Outer radius of a ring mask</p></li>
+<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – (x,y) - coordinates of a center of a ring for a masking region of interest to calculate SD</p></li>
+<li><p><strong>rad_in</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Inner radius of a ring mask</p></li>
+<li><p><strong>rad_out</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Outer radius of a ring mask</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -208,7 +204,7 @@ calculate SD</p></li>
 To return 2-D array use pass_results[‘intensity’].data</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -220,7 +216,7 @@ To return 2-D array use pass_results[‘intensity’].data</p>
 symmetries of diffraction patterns.</p>
 <span class="target" id="module-libertem.analysis.radialfourier"></span><dl class="py class">
 <dt class="sig sig-object py" id="libertem.analysis.radialfourier.RadialFourierResultSet">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libertem.analysis.radialfourier.</span></span><span class="sig-name descname"><span class="pre">RadialFourierResultSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/typing.html#typing.Union" title="(in Python v3.7)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.7/library/typing.html#typing.List" title="(in Python v3.7)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api.html#libertem.analysis.base.AnalysisResult" title="libertem.common.analysis.AnalysisResult"><span class="pre">AnalysisResult</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/typing.html#typing.Callable" title="(in Python v3.7)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/typing.html#typing.List" title="(in Python v3.7)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api.html#libertem.analysis.base.AnalysisResult" title="libertem.common.analysis.AnalysisResult"><span class="pre">AnalysisResult</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/libertem/analysis/radialfourier.html#RadialFourierResultSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.analysis.radialfourier.RadialFourierResultSet" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libertem.analysis.radialfourier.</span></span><span class="sig-name descname"><span class="pre">RadialFourierResultSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api.html#libertem.analysis.base.AnalysisResult" title="libertem.common.analysis.AnalysisResult"><span class="pre">AnalysisResult</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Callable" title="(in Python v3.10)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api.html#libertem.analysis.base.AnalysisResult" title="libertem.common.analysis.AnalysisResult"><span class="pre">AnalysisResult</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/libertem/analysis/radialfourier.html#RadialFourierResultSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.analysis.radialfourier.RadialFourierResultSet" title="Permalink to this definition"></a></dt>
 <dd><p>Result set of a <code class="xref py py-class docutils literal notranslate"><span class="pre">RadialFourierAnalysis</span></code></p>
 <p>Running a <code class="xref py py-class docutils literal notranslate"><span class="pre">RadialFourierAnalysis</span></code> via <a class="reference internal" href="../api.html#libertem.api.Context.run" title="libertem.api.Context.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">libertem.api.Context.run()</span></code></a> on a dataset
 returns an instance of this class. It contains the Fourier coefficients

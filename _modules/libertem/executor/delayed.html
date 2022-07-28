@@ -72,7 +72,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -313,7 +312,7 @@
 <span class="sd">        of results, then unpacks the Delayed return value into</span>
 <span class="sd">        the normal</span>
 
-<span class="sd">            tuple(udf.results for udf in self._udfs)</span>
+<span class="sd">            :code:`tuple(udf.results for udf in self._udfs)`</span>
 
 <span class="sd">        where the buffers inside udf.results are dask arrays instead</span>
 <span class="sd">        of normal np.arrays</span>
@@ -322,7 +321,7 @@
 <span class="sd">        that the results structure can be inferred. This reference is</span>
 <span class="sd">        found in self._udfs, which is set with the method:</span>
 
-<span class="sd">            executor.register_master_udfs(udfs)</span>
+<span class="sd">            :code:`executor.register_master_udfs(udfs)`</span>
 
 <span class="sd">        called from :meth:`DelayedUDFRunner.results_for_dataset_sync`</span>
 <span class="sd">        &quot;&quot;&quot;</span>

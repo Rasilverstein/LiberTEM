@@ -107,7 +107,6 @@
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -206,7 +205,7 @@ to calculate the sum over the last signal axis:</p>
 See <a class="reference internal" href="udf/advanced.html#auto-udf"><span class="std std-ref">Auto UDF</span></a> for more details. This is most suited for simple functions; once you have
 parameters or want to re-use some data across function calls, you should create a
 <a class="reference internal" href="reference/udf.html#libertem.udf.base.UDF" title="libertem.udf.base.UDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">UDF</span></code></a> subclass instead.</p>
-<p><a class="reference external" href="https://docs.python.org/3.7/library/functools.html#functools.partial" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a> is a higher-order function that allows to create a new
+<p><a class="reference external" href="https://docs.python.org/3.10/library/functools.html#functools.partial" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a> is a higher-order function that allows to create a new
 function by wrapping an existing function and passing additional parameters to
 it. In this case, the resulting call to <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.sum.html#numpy.sum" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.sum()</span></code></a> within
 <code class="code docutils literal notranslate"><span class="pre">ctx.map(...)</span></code> is <code class="code docutils literal notranslate"><span class="pre">numpy.sum(frame,</span> <span class="pre">axis=-1)</span></code>. See

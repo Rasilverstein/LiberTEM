@@ -80,9 +80,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../sparse.html">Sparse array utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../internals.html">Internal API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../dask.html">Dask API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../dask.html#dask-result-buffer">Dask result buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cluster-ds.html">Cluster data set</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../caching.html">Distributed caching layer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../corrections.html">Corrections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../viz.html">Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#indices-and-tables">Indices and tables</a></li>
@@ -102,7 +99,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -175,7 +171,7 @@ instructions and documentation of the new structure. Imports from
 <span class="target" id="module-libertem.analysis.gridmatching"></span><dl class="py class">
 <dt class="sig sig-object py" id="libertem.analysis.gridmatching.CorrelationResult">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libertem.analysis.gridmatching.</span></span><span class="sig-name descname"><span class="pre">CorrelationResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">centers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refineds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peak_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peak_elevations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/libertem/analysis/gridmatching.html#CorrelationResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.analysis.gridmatching.CorrelationResult" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Container class for the result of correlation-based refinement of peak
 positions within a frame.</p>
 </dd></dl>
@@ -245,9 +241,9 @@ matching method.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>indices</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>numpy.ndarray</em></a>) – Indices to calculate coordinates for. Both an array of (y, x) pairs
 and the output of np.mgrid are supported.</p></li>
-<li><p><strong>drop_zero</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Drop the zero order peak. This is important for virtual darkfield imaging.</p></li>
-<li><p><strong>frame_shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>]</em>) – If set, the peaks are filtered with <code class="xref py py-meth docutils literal notranslate"><span class="pre">within_frame()</span></code></p></li>
-<li><p><strong>r</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Radius for <code class="xref py py-meth docutils literal notranslate"><span class="pre">within_frame()</span></code></p></li>
+<li><p><strong>drop_zero</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Drop the zero order peak. This is important for virtual darkfield imaging.</p></li>
+<li><p><strong>frame_shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – If set, the peaks are filtered with <code class="xref py py-meth docutils literal notranslate"><span class="pre">within_frame()</span></code></p></li>
+<li><p><strong>r</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Radius for <code class="xref py py-meth docutils literal notranslate"><span class="pre">within_frame()</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -257,7 +253,7 @@ and the output of np.mgrid are supported.</p></li>
 <dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)">numpy.ndarray</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – If the shape of <code class="code docutils literal notranslate"><span class="pre">indices</span></code> is not as expected.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.10/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If the shape of <code class="code docutils literal notranslate"><span class="pre">indices</span></code> is not as expected.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -280,7 +276,7 @@ and the output of np.mgrid are supported.</p></li>
 numpy.float(‘inf’) if match of length zero.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)">float</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -335,15 +331,15 @@ numpy.float(‘inf’) if match of length zero.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="libertem.analysis.gridmatching.Matcher">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libertem.analysis.gridmatching.</span></span><span class="sig-name descname"><span class="pre">Matcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/libertem/analysis/gridmatching.html#Matcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.analysis.gridmatching.Matcher" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The main job of the Matcher object is managing the matching parameters
 and making them available for the various matching routines.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>tolerance</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Position tolerance in px for peaks to be considered matches</p></li>
-<li><p><strong>min_weight</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Minimum peak elevation of a peak to be considered for matching</p></li>
-<li><p><strong>min_match</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Minimum number of matching peaks to be considered a match.</p></li>
+<li><p><strong>tolerance</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Position tolerance in px for peaks to be considered matches</p></li>
+<li><p><strong>min_weight</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Minimum peak elevation of a peak to be considered for matching</p></li>
+<li><p><strong>min_match</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Minimum number of matching peaks to be considered a match.</p></li>
 </ul>
 </dd>
 </dl>
@@ -419,7 +415,7 @@ matching result.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="libertem.analysis.gridmatching.PointSelection">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libertem.analysis.gridmatching.</span></span><span class="sig-name descname"><span class="pre">PointSelection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correlation_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#libertem.analysis.gridmatching.CorrelationResult" title="libertem.analysis.gridmatching.CorrelationResult"><span class="pre">CorrelationResult</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">selector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/libertem/analysis/gridmatching.html#PointSelection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.analysis.gridmatching.PointSelection" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Class that represents a subset of a correlation result.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="libertem.analysis.gridmatching.PointSelection.selector">
@@ -507,19 +503,19 @@ to install on some platforms. For that reason it is an optional dependency.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>tolerance</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Position tolerance in px for peaks to be considered matches</p></li>
-<li><p><strong>min_weight</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Minimum peak elevation of a peak to be considered for matching</p></li>
-<li><p><strong>min_match</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Minimum number of matching peaks to be considered a match.</p></li>
-<li><p><strong>min_angle</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Minimum angle in radians between two vectors to be considered candidates</p></li>
-<li><p><strong>min_points</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Minimum points to try clustering matching. Otherwise match directly</p></li>
-<li><p><strong>min_delta</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Minimum length of a potential grid vector</p></li>
-<li><p><strong>max_delta</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Maximum length of a potential grid vector</p></li>
-<li><p><strong>min_candidates</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Minimum number of candidates to consider clustering matching successful.
+<li><p><strong>tolerance</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Position tolerance in px for peaks to be considered matches</p></li>
+<li><p><strong>min_weight</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Minimum peak elevation of a peak to be considered for matching</p></li>
+<li><p><strong>min_match</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Minimum number of matching peaks to be considered a match.</p></li>
+<li><p><strong>min_angle</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Minimum angle in radians between two vectors to be considered candidates</p></li>
+<li><p><strong>min_points</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Minimum points to try clustering matching. Otherwise match directly</p></li>
+<li><p><strong>min_delta</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Minimum length of a potential grid vector</p></li>
+<li><p><strong>max_delta</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Maximum length of a potential grid vector</p></li>
+<li><p><strong>min_candidates</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Minimum number of candidates to consider clustering matching successful.
 If not enough are found, the algorithm uses a brute-force search with all
 pairwise vectors between points</p></li>
-<li><p><strong>max_candidates</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Maximum number of candidates to return from clustering matching</p></li>
+<li><p><strong>max_candidates</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Maximum number of candidates to return from clustering matching</p></li>
 <li><p><strong>clusterer</strong> – Instance of sklearn.cluster compatible clusterer. Default is <code class="xref py py-class docutils literal notranslate"><span class="pre">HDBSCAN</span></code>.</p></li>
-<li><p><strong>min_cluster_size_fraction</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Tuning parameter for clustering matching with <code class="xref py py-class docutils literal notranslate"><span class="pre">HDBSCAN</span></code>.
+<li><p><strong>min_cluster_size_fraction</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Tuning parameter for clustering matching with <code class="xref py py-class docutils literal notranslate"><span class="pre">HDBSCAN</span></code>.
 Larger values allow
 smaller or fuzzier clusters. This is used to adapt the <code class="code docutils literal notranslate"><span class="pre">min_cluster_size</span></code>
 parameter of <code class="xref py py-class docutils literal notranslate"><span class="pre">HDBSCAN</span></code> dynamically to the number of points to be
@@ -528,7 +524,7 @@ Set this to <code class="code docutils literal notranslate"><span class="pre">No
 If you like to set <code class="code docutils literal notranslate"><span class="pre">min_cluster_size</span></code> to a constant value, you can
 set this to <code class="code docutils literal notranslate"><span class="pre">None</span></code> and additionally set the <code class="code docutils literal notranslate"><span class="pre">clusterer</span></code> parameter with
 your own clusterer object to have direct control over all parameters.</p></li>
-<li><p><strong>min_samples_fraction</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Tuning parameter for clustering matching with <code class="xref py py-class docutils literal notranslate"><span class="pre">HDBSCAN</span></code>.
+<li><p><strong>min_samples_fraction</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Tuning parameter for clustering matching with <code class="xref py py-class docutils literal notranslate"><span class="pre">HDBSCAN</span></code>.
 Larger values allow
 smaller or fuzzier clusters. This is used to adapt the <code class="code docutils literal notranslate"><span class="pre">min_samples</span></code>
 parameter of <code class="xref py py-class docutils literal notranslate"><span class="pre">HDBSCAN</span></code> dynamically to the number of points to be
@@ -552,7 +548,7 @@ The zero point is included in each of the matches because it is shared between a
 <li><p><strong>centers</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>numpy.ndarray</em></a>) – numpy.ndarray of shape (n, 2) with integer centers (y, x) of peaks. This would typically
 be extracted with <code class="xref py py-meth docutils literal notranslate"><span class="pre">libertem_blobfinder.common.correlation.get_peaks()</span></code></p></li>
 <li><p><strong>zero</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>numpy.ndarray</em></a>) – Zero point as numpy array (y, x).</p></li>
-<li><p><strong>cand</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em> or </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>numpy.ndarray</em></a>) – Optional list of candidate vectors (y, x) to use in a first matching round before
+<li><p><strong>cand</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em> or </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>numpy.ndarray</em></a>) – Optional list of candidate vectors (y, x) to use in a first matching round before
 guessing.</p></li>
 <li><p><strong>refineds</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>numpy.ndarray</em></a>) – numpy.ndarray of shape (n, 2) with float centers (y, x) of peaks (subpixel refinement)</p></li>
 <li><p><strong>peak_values</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>numpy.ndarray</em></a>) – numpy.ndarray of shape (n,) with float maxima of correlation map of peaks</p></li>
@@ -604,7 +600,7 @@ to avoid calculating for unwanted higher order or random smaller vectors.</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="libertem.analysis.fullmatch.NotFoundException">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libertem.analysis.fullmatch.</span></span><span class="sig-name descname"><span class="pre">NotFoundException</span></span><a class="reference internal" href="../../_modules/libertem/analysis/fullmatch.html#NotFoundException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#libertem.analysis.fullmatch.NotFoundException" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/exceptions.html#Exception" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
 </dd></dl>
 
 <dl class="py function">

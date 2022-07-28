@@ -88,7 +88,6 @@
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -146,7 +145,7 @@
 <section id="using-ssh-forwarding">
 <span id="ssh-forwarding"></span><h2>Using SSH forwarding<a class="headerlink" href="#using-ssh-forwarding" title="Permalink to this heading"></a></h2>
 <p>As there is no built-in authentication yet, LiberTEM should not listen on a network
-port where untrusted parties have access. You can use ssh port forwarding from <cite>localhost</cite> instead
+port where untrusted parties have access. You can use ssh port forwarding from <code class="code docutils literal notranslate"><span class="pre">localhost</span></code> instead
 to access LiberTEM from a different computer.</p>
 <p>For example with conda:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ ssh -L <span class="m">9000</span>:localhost:9000 &lt;remote-hostname&gt; <span class="s2">&quot;conda activate libertem; libertem-server&quot;</span>
@@ -156,7 +155,7 @@ to access LiberTEM from a different computer.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ ssh -L <span class="m">9000</span>:localhost:9000 &lt;remote-hostname&gt; <span class="s2">&quot;/path/to/virtualenv/bin/libertem-server&quot;</span>
 </pre></div>
 </div>
-<p>This makes LiberTEM, which is running on <cite>remote-hostname</cite>, available on your
+<p>This makes LiberTEM, which is running on <code class="code docutils literal notranslate"><span class="pre">remote-hostname</span></code>, available on your
 local host via <a class="reference external" href="http://localhost:9000/">http://localhost:9000/</a></p>
 <p>Alternatively, you can launch and access LiberTEM on remote systems through
 <a class="reference internal" href="deployment/jupyter.html#jupyter-integration"><span class="std std-ref">Jupyter integration</span></a>.</p>

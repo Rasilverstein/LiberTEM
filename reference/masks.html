@@ -70,9 +70,6 @@
 <li class="toctree-l2"><a class="reference internal" href="sparse.html">Sparse array utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="internals.html">Internal API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dask.html">Dask API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dask.html#dask-result-buffer">Dask result buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cluster-ds.html">Cluster data set</a></li>
-<li class="toctree-l2"><a class="reference internal" href="caching.html">Distributed caching layer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="corrections.html">Corrections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viz.html">Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
@@ -92,7 +89,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -174,11 +170,11 @@ uniform background or linear gradient.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>centreX</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Centre point of the mask.</p></li>
-<li><p><strong>centreY</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Centre point of the mask.</p></li>
-<li><p><strong>imageSizeX</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Size of the image to be masked.</p></li>
-<li><p><strong>imageSizeY</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Size of the image to be masked.</p></li>
-<li><p><strong>radius</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Radius of the mask.</p></li>
+<li><p><strong>centreX</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Centre point of the mask.</p></li>
+<li><p><strong>centreY</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Centre point of the mask.</p></li>
+<li><p><strong>imageSizeX</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the image to be masked.</p></li>
+<li><p><strong>imageSizeY</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the image to be masked.</p></li>
+<li><p><strong>radius</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Radius of the mask.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -210,13 +206,13 @@ generate a template as a function of radius and angle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>centerX</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Center of the coordinate system in pixel coordinates</p></li>
-<li><p><strong>centerY</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Center of the coordinate system in pixel coordinates</p></li>
-<li><p><strong>imageSizeX</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Size of the map to generate in px</p></li>
-<li><p><strong>imageSizeY</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Size of the map to generate in px</p></li>
-<li><p><strong>stretchY</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em>) – Stretch the radius elliptically by amount <code class="code docutils literal notranslate"><span class="pre">stretchY</span></code> in direction
+<li><p><strong>centerX</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Center of the coordinate system in pixel coordinates</p></li>
+<li><p><strong>centerY</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Center of the coordinate system in pixel coordinates</p></li>
+<li><p><strong>imageSizeX</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the map to generate in px</p></li>
+<li><p><strong>imageSizeY</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the map to generate in px</p></li>
+<li><p><strong>stretchY</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>optional</em>) – Stretch the radius elliptically by amount <code class="code docutils literal notranslate"><span class="pre">stretchY</span></code> in direction
 <code class="code docutils literal notranslate"><span class="pre">angle</span></code> in radians. <code class="code docutils literal notranslate"><span class="pre">angle</span> <span class="pre">=</span> <span class="pre">0</span></code> means in Y direction.</p></li>
-<li><p><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em>) – Stretch the radius elliptically by amount <code class="code docutils literal notranslate"><span class="pre">stretchY</span></code> in direction
+<li><p><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>optional</em>) – Stretch the radius elliptically by amount <code class="code docutils literal notranslate"><span class="pre">stretchY</span></code> in direction
 <code class="code docutils literal notranslate"><span class="pre">angle</span></code> in radians. <code class="code docutils literal notranslate"><span class="pre">angle</span> <span class="pre">=</span> <span class="pre">0</span></code> means in Y direction.</p></li>
 </ul>
 </dd>
@@ -255,9 +251,9 @@ be generated with the stretchY and angle parameters of <a class="reference inter
 <li><p><strong>r</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>numpy.ndarray</em></a>) – Map of radius for each pixel, typically 2D. This allows to work in distorted coordinate
 systems by assigning arbitrary radius values to each pixel.
 <a class="reference internal" href="#libertem.masks.polar_map" title="libertem.masks.polar_map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">polar_map()</span></code></a> can generate elliptical maps as an example.</p></li>
-<li><p><strong>r0</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Inner radius to fill with a linear gradient in units of r</p></li>
-<li><p><strong>r_outer</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Outer radius of ring from r0 to fill with -1 in units of r</p></li>
-<li><p><strong>delta</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em>) – Width of transition region between inner and outer in units of r
+<li><p><strong>r0</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Inner radius to fill with a linear gradient in units of r</p></li>
+<li><p><strong>r_outer</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Outer radius of ring from r0 to fill with -1 in units of r</p></li>
+<li><p><strong>delta</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>optional</em>) – Width of transition region between inner and outer in units of r
 with linear gradient for antialiasing or smoothening. Defaults to 1.</p></li>
 </ul>
 </dd>
@@ -304,12 +300,12 @@ described in the description.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>centreX</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Centre point of the mask.</p></li>
-<li><p><strong>centreY</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Centre point of the mask.</p></li>
-<li><p><strong>imageSizeX</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Size of the image to be masked.</p></li>
-<li><p><strong>imageSizeY</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Size of the image to be masked.</p></li>
-<li><p><strong>radius</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Outer radius of the ring.</p></li>
-<li><p><strong>radius_inner</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Inner radius of the ring.</p></li>
+<li><p><strong>centreX</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Centre point of the mask.</p></li>
+<li><p><strong>centreY</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Centre point of the mask.</p></li>
+<li><p><strong>imageSizeX</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the image to be masked.</p></li>
+<li><p><strong>imageSizeY</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the image to be masked.</p></li>
+<li><p><strong>radius</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Outer radius of the ring.</p></li>
+<li><p><strong>radius_inner</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Inner radius of the ring.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

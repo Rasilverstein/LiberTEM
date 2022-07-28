@@ -72,7 +72,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dev/how-io-works.html">How does I/O work in LiberTEM?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dev/executors.html">LiberTEM executors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../gsoc.html">GSoC 2020 ideas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authorship.html">Authorship policy</a></li>
 </ul>
 
@@ -834,7 +833,7 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        Run the `SumUDF` on a data set:</span>
+<span class="sd">        Run the :class:`~libertem.udf.sum.SumUDF` on a data set:</span>
 
 <span class="sd">        &gt;&gt;&gt; from libertem.udf.sum import SumUDF</span>
 <span class="sd">        &gt;&gt;&gt; result = ctx.run_udf(dataset=dataset, udf=SumUDF())</span>
@@ -950,7 +949,7 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        Run the `SumUDF` on a data set:</span>
+<span class="sd">        Run the :class:`~libertem.udf.sum.SumUDF` on a data set:</span>
 
 <span class="sd">        &gt;&gt;&gt; from libertem.udf.sum import SumUDF</span>
 <span class="sd">        &gt;&gt;&gt; for result in ctx.run_udf_iter(dataset=dataset, udf=SumUDF()):</span>
